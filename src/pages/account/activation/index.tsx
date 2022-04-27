@@ -60,7 +60,7 @@ const Activation = () =>{
                             </div>
                         </div>
 
-                        <div className="border border-black px-10 py-5  h-xl rounded-2xl mt-10">
+                        <div className="border border-black px-10 py-5  h-lg rounded-2xl mt-10">
                             {code.map((item=>(
                                 <div key={item.id} className="flex justify-between">
                                     <div className="text-sm mb-2">

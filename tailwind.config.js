@@ -10,7 +10,9 @@ module.exports = {
                 sans: ['Inter var', ...defaultTheme.fontFamily.sans],
             },
             height: {
-                xl: '32rem',
+                lg: '30rem',
+                xl:'34rem',
+                big:'40rem',
             },
         },
         variants: {

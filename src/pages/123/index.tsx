@@ -1,7 +1,11 @@
 import React from 'react'
 
-const Test = () =>{
 
+function classNames(...classes) {
+    return classes.filter(Boolean).join(' ')
+}
+
+const Test = () =>{
 
     return (
         <div className="relative pt-4">

@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import React from 'react'
+import Leaderboard from "../../pages/leaderboard";
 
 const Navigation = () =>{
 
@@ -19,7 +20,7 @@ const Navigation = () =>{
                 </a>
             </Link>
 
-            <Link href="">
+            <Link href="/leaderboard">
                 <a className="text-2xl">
                 <i className="fa fa-sort-amount-desc" aria-hidden="true"></i>
                 </a>

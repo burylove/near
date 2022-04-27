@@ -74,20 +74,20 @@ const Main = () =>{
                         <i className="fa fa-question-circle-o" aria-hidden="true"></i>
                     </button>
                 </div>
-                <div className="flex justify-center mt-8 ">
-                    <div>
-                        <button className="px-8 py-2.5 bg-gray-300 border rounded-l-full">
+                <div className="flex justify-center mt-8 items-center ">
+                        <div className="px-8 py-2  border rounded-l-full">
                         Learn
-                        </button>
-                    </div>
-                    <div>
-                        <button className="px-8 py-2.5 border  rounded-r-full">
-                        Review
-                        </button>
-                        <div className="text-xs mt-2 ">
-                            当前剩余答题次数 2
                         </div>
+                    <div>
+                        <Link href="/answer">
+                        <div className="px-8 py-2 border rounded-r-full">
+                        Review
+                        </div>
+                        </Link>
                     </div>
+                </div>
+                <div className="text-xs mt-2 flex justify-end px-20">
+                    当前剩余答题次数 2
                 </div>
                     <Navigation/>
 
