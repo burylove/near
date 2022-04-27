@@ -30,7 +30,7 @@ const ExternalInfo = () =>{
     const [tokenName,SetTokenName] = useState("NEAR")
     return(
         <>
-            <div className="relative pt-4">
+            <div className="relative">
                 <div className="absolute inset-x-0 bottom-0    " />
                 <div className=" mx-auto  ">
                     <div className="max-w-7xl relative px-8 py-10   mx-auto ">
@@ -264,7 +264,7 @@ const ExternalInfo = () =>{
 const External = () =>{
 
     return (
-        <div className="relative pt-4">
+        <div className="relative">
             <div className="absolute inset-x-0 bottom-0    " />
             <div className=" mx-auto  ">
                 <div className="fixed z-20 inset-x-0 flex justify-between items-center">

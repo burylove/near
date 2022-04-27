@@ -29,7 +29,7 @@ const Detail = () =>{
 
 
     return (
-        <div className="relative pt-4">
+        <div className="relative">
             <div className="absolute inset-x-0 bottom-0    " />
             <div className=" mx-auto  ">
                 <div className="fixed z-20 inset-x-0 flex justify-between px-5 mx-auto ">
