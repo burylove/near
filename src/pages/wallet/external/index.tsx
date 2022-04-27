@@ -34,7 +34,7 @@ const ExternalInfo = () =>{
                 <div className="absolute inset-x-0 bottom-0    " />
                 <div className=" mx-auto  ">
                     <div className="max-w-7xl relative px-8 py-10   mx-auto ">
-                        <div className="">
+                        <div className="mt-5">
                             <div className="flex justify-center">
                                 <Listbox value={selected} onChange={setSelected}>
                                     {({open}) => (
