@@ -1,7 +1,7 @@
 import React, {Fragment, useState} from "react";
 import Link from "next/link";
-import {Listbox, Transition} from "@headlessui/react";
-import {CheckIcon, SelectorIcon} from "@heroicons/react/solid";
+import {Dialog, Listbox, Menu, Transition} from "@headlessui/react";
+import {CheckIcon, ChevronDownIcon, SelectorIcon} from "@heroicons/react/solid";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -28,6 +28,8 @@ const ExternalInfo = () =>{
     const [selected, setSelected] = useState(tokens[2])
     const [token,setToken] = useState(444.24)
     const [tokenName,SetTokenName] = useState("NEAR")
+    const [openReceive,setOpenReceive] =useState(false)
+    const [openExternal,setOpenExternal] =useState(false)
     return(
         <>
             <div className="relative">
@@ -101,25 +103,44 @@ const ExternalInfo = () =>{
                                 </div>
                             </div>
 
-                            <div className="flex justify-between mt-10 px-12">
-                                <div>
+                            <div className="flex justify-between mt-10 px-2 items-center">
+                                <button onClick={()=>{setOpenReceive(true)}}>
                                 <div className="text-green-500 flex items-center  text-2xl px-4 py-3.5 border-gray-500   border-2 rounded-full">
                                     <i className="fa fa-download" aria-hidden="true"></i>
                                 </div>
                                     <div className="text-xs text-center mt-1">
                                         Receive
                                     </div>
-                                </div>
+                                </button>
+                                <Link href="/wallet/transfer">
+                                    <a>
+                                    <div className="text-green-500 flex w-14 items-center  text-2xl px-4 py-3.5  border-gray-500 border-2 rounded-full">
+                                        <i className="fa fa-refresh" aria-hidden="true"></i>
+                                    </div>
+                                    <div className="text-xs text-center mt-1">
+                                        Inside
+                                    </div>
+                                    </a>
+                                </Link>
 
-                                <div>
+                                <button onClick={()=>{setOpenExternal(true)}}>
                                     <div className="text-green-500 flex items-center  text-2xl px-3.5 py-3.5  border-gray-500 border-2 rounded-full">
                                         <i className="fa fa-external-link" aria-hidden="true"></i>
                                     </div>
                                     <div className="text-xs text-center mt-1">
-                                       Transfer
+                                       External
                                     </div>
-                                </div>
-
+                                </button>
+                                <Link href="/wallet/trade">
+                                    <a>
+                                    <div className="text-green-500 flex items-center  text-2xl px-3.5 py-3.5  border-gray-500 border-2 rounded-full">
+                                        <i className="fa fa-recycle" aria-hidden="true"></i>
+                                    </div>
+                                    <div className="text-xs text-center mt-1">
+                                        Trade
+                                    </div>
+                                    </a>
+                                </Link>
                             </div>
 
                             <div className="mt-8 text-xl font-semibold flex items-center">
@@ -188,10 +209,7 @@ const ExternalInfo = () =>{
                                         NEARtoken
                                     </div>
                                 </div>
-
-
                             </div>
-
                             <div className="mt-12 border-2 border-gray-500 rounded-xl  border-r-4 border-b-4">
                                 <div className="flex justify-between px-4 py-2 items-center ">
                                     <div className="flex items-center">
@@ -246,7 +264,7 @@ const ExternalInfo = () =>{
                                         </div>
                                     </div>
                                     <div className="text-left">
-                                        NEARtoken
+                                        NEARToken
                                     </div>
                                 </div>
 
@@ -254,8 +272,122 @@ const ExternalInfo = () =>{
                             </div>
 
                         </div>
+
+
                     </div>
                 </div>
+                <Transition.Root show={openReceive} as={Fragment}>
+                    <Dialog as="div" className="fixed z-20 inset-0 overflow-y-auto "  onClose={setOpenReceive}>
+                        <div className="flex items-center justify-center min-h-screen     text-center ">
+                            <Transition.Child
+                                as={Fragment}
+                                enter="ease-out duration-300"
+                                enterFrom="opacity-0"
+                                enterTo="opacity-100"
+                                leave="ease-in duration-200"
+                                leaveFrom="opacity-100"
+                                leaveTo="opacity-0"
+                            >
+                                <Dialog.Overlay className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+                            </Transition.Child>
+
+                            {/* This element is to trick the browser into centering the modal contents. */}
+                            <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;
+              </span>
+                            <Transition.Child
+                                as={Fragment}
+                                enter="ease-out duration-300"
+                                enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                                enterTo="opacity-100 translate-y-0 sm:scale-100"
+                                leave="ease-in duration-200"
+                                leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                                leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                            >
+                                <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6">
+                                    <div>
+                                        <div className="   flex justify-center i">
+                                            <div className="font-semibold text-center">
+                                                RECEIVE
+                                            </div>
+                                        </div>
+                                        <div className="flex justify-center items-center mt-2">
+                                            <div className="rounded-full text-gray-700  text-center w-20 px-3 py-0.5 bg-blue-300 text-sm">
+                                                NEAR
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="mt-5 ">
+                                        <div className="text-center text-sm text-gray-500">
+                                            Scan address to receive payment
+                                        </div>
+                                        <div className="text-xs px-5 rounded-full border py-0.5 mt-2">
+                                            BNECj6YByqrEHPh36WYqbTXRucXXhaF2qkWpoicKn2h7
+                                        </div>
+                                        <div className="flex justify-center">
+                                            <button
+                                                type="button"
+                                                className="w-full flex mt-5  justify-center rounded-full border border-transparent shadow-sm px-4 py-2 bg-blue-300 text-base font-medium text-white "
+                                            >
+                                              COPY ADDRESS
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Transition.Child>
+                        </div>
+                    </Dialog>
+                </Transition.Root>
+                <Transition.Root show={openExternal} as={Fragment}>
+                    <Dialog as="div" className="fixed z-20 inset-0 overflow-y-auto "  onClose={setOpenExternal}>
+                        <div className="flex items-center justify-center min-h-screen     text-center ">
+                            <Transition.Child
+                                as={Fragment}
+                                enter="ease-out duration-300"
+                                enterFrom="opacity-0"
+                                enterTo="opacity-100"
+                                leave="ease-in duration-200"
+                                leaveFrom="opacity-100"
+                                leaveTo="opacity-0"
+                            >
+                                <Dialog.Overlay className="fixed inset-0  bg-gray-500 bg-opacity-75 transition-opacity" />
+                            </Transition.Child>
+
+                            {/* This element is to trick the browser into centering the modal contents. */}
+                            <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;
+              </span>
+                            <Transition.Child
+                                as={Fragment}
+                                enter="ease-out duration-300"
+                                enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                                enterTo="opacity-100 translate-y-0 sm:scale-100"
+                                leave="ease-in duration-200"
+                                leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                                leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                            >
+                                <div className="inline-block align-bottom  bg-white rounded-lg px-10 py-10 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6">
+                                    {tokens.map((item=>(
+                                     <Link href={`/wallet/toexternal/${item.name}`} key={item.id}>
+                                    <div className="my-2 border-2 w-80 border-gray-500 rounded-xl  border-r-4 border-b-4">
+                                        <div className="flex justify-between px-4 py-2 items-center ">
+                                            <div className="flex items-center">
+                                                <div>
+                                                    <img className="rounded-full w-9"
+                                                         src={item.avatar} alt=""/>
+                                                </div>
+                                                <div className="ml-2 font-semibold">
+                                                    {item.name}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                        </Link>
+                                        )))}
+                                </div>
+                            </Transition.Child>
+                        </div>
+                    </Dialog>
+                </Transition.Root>
             </div>
         </>
     )

@@ -4,6 +4,7 @@ import {CheckIcon, SelectorIcon} from '@heroicons/react/solid';
 import {Listbox, Transition } from '@headlessui/react';
 import {useAtom} from "jotai";
 import {GMTToken, GSTToken, NEARToken} from "../../../jotai";
+import {Constant} from "../../../constant";
 
 
 function classNames(...classes) {
@@ -29,11 +30,8 @@ const tokens = [
 ]
 
 const Asset = () =>{
+    const tokenInfo = Constant()
     const [selected, setSelected] = useState(tokens[2])
-    const [GST,] = useAtom(GSTToken)
-    const [GMT,] = useAtom(GMTToken)
-    const [NEAR,] = useAtom(NEARToken)
-    const token=  { GST, GMT, NEAR}
     return(
         <>
             <div className="mt-16">
@@ -103,7 +101,7 @@ const Asset = () =>{
                 <div className="flex text-xs mt-1">
                     Balance:
                     <div className="ml-0.5">
-                        {classNames(token[selected.name])}
+                        {classNames(tokenInfo.TokenData[selected.name])}
                     </div>
                     <div className="ml-0.5">
                         {selected.name}
