@@ -3,7 +3,6 @@ import React from 'react'
 import Leaderboard from "../../pages/leaderboard";
 
 const Navigation = () =>{
-
     return (
             <div className=" fixed z-20 bottom-0 w-full px-8 mx-auto">
 
@@ -13,7 +12,6 @@ const Navigation = () =>{
             <i className="fa fa-graduation-cap" aria-hidden="true"></i>
                 </a>
             </Link>
-
             <Link href="/bag">
                 <a className="text-2xl">
                 <i className="fa fa-cube" aria-hidden="true"></i>

@@ -46,7 +46,7 @@ const ExternalInfo = () =>{
     useEffect(()=>{
         const fetchUserBounty = async () => {
             console.log(near_address)
-            const data= await axios.get("http://127.0.0.1:7001/api/near/query/near_account_balance",{
+            const data= await axios.get("http://101.32.184.176/api/near/query/near_account_balance",{
                 params:{
                     near_address
                 }
