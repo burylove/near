@@ -1,7 +1,13 @@
 import React from 'react'
+import {useAtom} from "jotai";
+import {PeopleEmail} from "../../jotai";
 const Login = () =>{
-
+    const[email,setEmail] = useAtom(PeopleEmail)
     const login = () =>{
+        const Email = (document.getElementById("email") as HTMLInputElement).value
+
+       setEmail(Email)
+        console.log(email)
         window.location.replace('/login/activation')
     }
     return (
@@ -15,7 +21,7 @@ const Login = () =>{
                                 <input type="text"
                                        className="  text-xs md:text-sm   rounded-lg p-2 py-4 w-full border-gray-700 border   focus:border-blue-500 transition duration-300  outline-none"
                                        placeholder="Email address"
-                                       id="address"
+                                       id="email"
                                 />
                             </div>
                             <div>

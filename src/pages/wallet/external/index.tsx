@@ -1,7 +1,9 @@
-import React, {Fragment, useState} from "react";
+import React, {Fragment, useEffect, useState} from "react";
 import Link from "next/link";
 import {Dialog, Listbox, Menu, Transition} from "@headlessui/react";
 import {CheckIcon, ChevronDownIcon, SelectorIcon} from "@heroicons/react/solid";
+import {useAtom} from "jotai";
+import {Account, GMTToken, GSTToken, NearAccount, NEARToken} from "../../../jotai";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -26,10 +28,37 @@ const tokens = [
 ]
 const ExternalInfo = () =>{
     const [selected, setSelected] = useState(tokens[2])
-    const [token,setToken] = useState(444.24)
+    const [copyStyle,setCopyStyle] =useState(false)
     const [tokenName,SetTokenName] = useState("NEAR")
     const [openReceive,setOpenReceive] =useState(false)
     const [openExternal,setOpenExternal] =useState(false)
+
+    const [GSTtoken,setGSTtoken] = useAtom(GSTToken)
+    const [GMTtoken,setGMTtoken] = useAtom(GMTToken)
+    const [NEARtoken,setNEARtoken] = useAtom(NEARToken)
+    const [near_address,setNear_hex_account] =useAtom(NearAccount)
+    const [address,setAddress] = useState('')
+    useEffect(()=>{
+        const first = near_address.slice(0,6);
+        const last = near_address.slice(-5,-1)
+        setAddress(first+"..."+last)
+
+    },[])
+    const Copy = (span) => {
+        setCopyStyle(true)
+        const spanText = document.getElementById(span).innerText;
+        const oInput = document.createElement('input');
+        oInput.value = spanText;
+        document.body.appendChild(oInput);
+        oInput.select();
+        document.execCommand('Copy');
+        oInput.className = 'oInput';
+        oInput.style.display = 'none';
+        document.body.removeChild(oInput);
+        setTimeout( function (){
+
+            setCopyStyle(false)},2000)
+    }
     return(
         <>
             <div className="relative">
@@ -91,15 +120,18 @@ const ExternalInfo = () =>{
                             </div>
                             <div className="flex justify-center mt-5 text-2xl font-semibold">
                                 <div>
-                                    {token}
+                                    {NEARtoken}
                                 </div>
                                 <div className="ml-1">
                                     {tokenName}
                                 </div>
                             </div>
                             <div className="flex justify-center mt-5">
-                                <div className="w-6/12 px-4 text-center  py-0.5 border-gray-500 border border-2 border-b-4 border-r-4 rounded-full ">
-                                    zombies.near
+                                <button onClick={() => {Copy('address') }} className={copyStyle?"w-6/12 px-4 text-center  bg-green-300  py-0.5 border-gray-500 border border-2 border-b-4 border-r-4 rounded-full":"w-6/12 px-4 text-center  py-0.5 border-gray-500 border border-2 border-b-4 border-r-4 rounded-full"}>
+                                    {address}
+                                </button>
+                                <div className="hidden"  id="address">
+                                    {near_address}
                                 </div>
                             </div>
 
@@ -164,7 +196,7 @@ const ExternalInfo = () =>{
                                         </div>
                                     </div>
                                     <div className="text-left">
-                                        NEARtoken
+                                        {NEARtoken}
                                     </div>
                                 </div>
                                 <div className="flex justify-between px-4 py-2 border-t border-b border-gray-500 items-center ">
@@ -178,7 +210,7 @@ const ExternalInfo = () =>{
                                         </div>
                                     </div>
                                     <div className="text-left">
-                                        GSTtoken
+                                        {GSTtoken}
                                     </div>
                                 </div>
                                 <div className="flex justify-between px-4 py-2  border-b border-gray-500   items-center ">
@@ -192,7 +224,7 @@ const ExternalInfo = () =>{
                                         </div>
                                     </div>
                                     <div className="text-left">
-                                        GMTtoken
+                                        {GMTtoken}
                                     </div>
                                 </div>
                                 <div className="flex justify-between px-4 py-2 items-center ">
@@ -210,66 +242,7 @@ const ExternalInfo = () =>{
                                     </div>
                                 </div>
                             </div>
-                            <div className="mt-12 border-2 border-gray-500 rounded-xl  border-r-4 border-b-4">
-                                <div className="flex justify-between px-4 py-2 items-center ">
-                                    <div className="flex items-center">
-                                        <div>
-                                            <img className="rounded-full w-9"
-                                                 src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1onspODOPj_-mr_lbWFWTt6SFO69mMdG6eT-tnkCiaBy97s2i-1KauNPVv4nN_L1bYkA&usqp=CAU" alt=""/>
-                                        </div>
-                                        <div className="ml-2 font-semibold">
-                                            NEAR
-                                        </div>
-                                    </div>
-                                    <div className="text-left">
-                                        NEARtoken
-                                    </div>
-                                </div>
-                                <div className="flex justify-between px-4 py-2 border-t border-b border-gray-500 items-center ">
-                                    <div className="flex items-center">
-                                        <div>
-                                            <img className="rounded-full w-9"
-                                                 src="https://s2.coinmarketcap.com/static/img/coins/64x64/16352.png" alt=""/>
-                                        </div>
-                                        <div className="ml-2 font-semibold">
-                                            GST
-                                        </div>
-                                    </div>
-                                    <div className="text-left">
-                                        GSTtoken
-                                    </div>
-                                </div>
-                                <div className="flex justify-between px-4 py-2  border-b border-gray-500   items-center ">
-                                    <div className="flex items-center">
-                                        <div>
-                                            <img className="rounded-full w-9"
-                                                 src="https://s2.coinmarketcap.com/static/img/coins/200x200/18069.png" alt=""/>
-                                        </div>
-                                        <div className="ml-2 font-semibold">
-                                            GMT
-                                        </div>
-                                    </div>
-                                    <div className="text-left">
-                                        GMTtoken
-                                    </div>
-                                </div>
-                                <div className="flex justify-between px-4 py-2 items-center ">
-                                    <div className="flex items-center">
-                                        <div>
-                                            <img className="rounded-full w-9"
-                                                 src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1onspODOPj_-mr_lbWFWTt6SFO69mMdG6eT-tnkCiaBy97s2i-1KauNPVv4nN_L1bYkA&usqp=CAU" alt=""/>
-                                        </div>
-                                        <div className="ml-2 font-semibold">
-                                            USN
-                                        </div>
-                                    </div>
-                                    <div className="text-left">
-                                        NEARToken
-                                    </div>
-                                </div>
 
-
-                            </div>
 
                         </div>
 

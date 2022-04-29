@@ -1,12 +1,26 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import {useAtom} from "jotai";
-import {GMTToken, GSTToken, NEARToken} from "../../jotai";
+import {GMTToken, GSTToken, NearAccount, NEARToken} from "../../jotai";
 import Link from "next/link";
+import axios from "axios";
 const Wallet = () =>{
 
-   const [GSTtoken,] = useAtom(GSTToken)
-   const [GMTtoken,] = useAtom(GMTToken)
-   const [NEARtoken,] = useAtom(NEARToken)
+   const [GSTtoken,setGSTtoken] = useAtom(GSTToken)
+   const [GMTtoken,setGMTtoken] = useAtom(GMTToken)
+   const [NEARtoken,setNEARtoken] = useAtom(NEARToken)
+   const [near_address,setNear_hex_account] =useAtom(NearAccount)
+    useEffect(() =>{
+        const fetchUserBounty = async () => {
+            console.log(near_address)
+            const data= await axios.get("http://127.0.0.1:7001/api/near/query/near_account_balance",{
+                params:{
+                    near_address
+                }
+                })
+            setNEARtoken(data.data)
+        }
+       fetchUserBounty()
+    },[])
     return (
         <div className="flex h-10">
         <div className="flex   justify-between border border-yellow-400 px-2 py-1.5 rounded-full pr-10">
