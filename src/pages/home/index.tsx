@@ -18,7 +18,7 @@ const Home = () =>{
             </div>
             <div className=" mx-auto  ">
                     <div className="max-w-7xl relative px-12 pt-96 mx-auto ">
-                            <div className="flex  justify-center pt-56">
+                            <div className="flex  justify-center pt-40">
                                 <button onClick={login} className="rounded-full">
                                     <img className="rounded-full w-64" src="https://cdn.discordapp.com/attachments/876498266550853642/969503443561631764/accec70cc618f996.png" alt=""/>
                                 </button>
