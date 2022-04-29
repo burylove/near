@@ -1,6 +1,6 @@
 import React from 'react'
 import {useAtom} from "jotai";
-import {Account, NearAccount, PeopleEmail, PeopleName, PublicKey, SecretKey, SeedPhrase} from "../../../jotai";
+import { NearAccount, PeopleEmail, PeopleName, PublicKey, SecretKey, SeedPhrase} from "../../../jotai";
 import Link from 'next/link';
 import axios from "axios";
 

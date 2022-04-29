@@ -23,13 +23,13 @@ const Phrase = () =>{
                         <div className="flex mt-10 ">
                             <div className="border py-8 px-4 rounded-2xl border-black text-sm  text-center mx-auto">
                                 <div className="text-red-400">
-                                    Don't risk losing your funds. Protect your wallet by
+                                    Don`t risk losing your funds. Protect your wallet by
                                     saving your Seed Phrase in a place you trust.
 
                                 </div>
                                 <div className="my-2 text-red-500  font-semibold">
 
-                                    It's the only way to recover your wallet if you get
+                                    It`s the only way to recover your wallet if you get
                                     locked out of the app or get a new device.
                                 </div>
                                 <div className="mt-10">

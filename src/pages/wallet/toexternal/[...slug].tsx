@@ -2,6 +2,10 @@ import React, {useEffect, useState} from 'react'
 import {useRouter} from "next/router";
 import Link from "next/link";
 import {Constant} from "../../../constant";
+import axios from "axios";
+import {useAtom} from "jotai";
+import {LoadingState, NearAccount, NEARToken} from "../../../jotai";
+import Loading from "../../../components/loading";
 
 
 function classNames(...classes) {
@@ -11,14 +15,49 @@ function classNames(...classes) {
 const ToExternal = () =>{
     const router = useRouter()
     const [tokenName,setTokenName]=useState("")
+    const [openload,setOpenload]=useAtom(LoadingState)
+    const [near_address,setNear_hex_account] =useAtom(NearAccount)
+    const [NEARtoken,setNEARtoken] = useAtom(NEARToken)
     const tokenInfo = Constant()
     useEffect(()=>{
         if(router.isReady){
             const name = router.query.slug[0]
             setTokenName(name)
+            const fetchUserBounty = async () => {
+                console.log(near_address)
+                const data= await axios.get("http://127.0.0.1:7001/api/near/query/near_account_balance",{
+                    params:{
+                        near_address
+                    }
+                })
+                console.log(data.data)
+                const near_balance = data.data.toFixed(8)
+                setNEARtoken(near_balance)
+            }
+            fetchUserBounty()
         }
 
     },[router.isReady])
+    const all = ()=>{
+        (document.getElementById("amount") as HTMLInputElement).value =  classNames(tokenInfo.TokenData[tokenName])
+    }
+    const confirm =async ()=>{
+        setOpenload(true)
+        const receiverId =  (document.getElementById("address") as HTMLInputElement).value
+        const amount =  (document.getElementById("amount") as HTMLInputElement).value
+        await axios.post("http://127.0.0.1:7001/api/near/user/transfer/near",{
+            near_address,receiverId,amount
+        }).then(async function(response){
+            setOpenload(false)
+            alert("成功")
+            await router.push("/wallet/external")
+        }).catch(async function (error){
+            setOpenload(false)
+            alert("请重试")
+        })
+
+
+    }
     return (
         <div className="relative">
             <div className="absolute inset-x-0 bottom-0    " />
@@ -66,7 +105,10 @@ const ToExternal = () =>{
                                 <div className="mr-4 text-black font-semibold">
                                     {tokenName}
                                 </div>
-                               All
+                                <button onClick={all}>
+                                    All
+                                </button>
+
                             </div></div>
                         <div className="flex text-xs mt-1">
                             Balance:
@@ -80,12 +122,13 @@ const ToExternal = () =>{
                             Invalid hook call. Hooks can only be called inside of the body of a function component. This could happen for one of the following reasons:
                         </div>
                         <div className="flex justify-center mt-10 ">
-                            <button className="w-10/12 flex mt-10  justify-center rounded-full border border-transparent shadow-sm px-4 py-2 bg-blue-300 text-base font-medium text-white ">
+                            <button onClick={confirm} className="w-10/12 flex mt-10  justify-center rounded-full border border-transparent shadow-sm px-4 py-2 bg-blue-300 text-base font-medium text-white ">
                                CONFIRM
                             </button>
                         </div>
                     </div>
                 </div>
+                <Loading/>
             </div>
         </div>
     )

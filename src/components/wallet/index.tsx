@@ -3,6 +3,7 @@ import {useAtom} from "jotai";
 import {GMTToken, GSTToken, NearAccount, NEARToken} from "../../jotai";
 import Link from "next/link";
 import axios from "axios";
+import {formatDecimal} from "../../utils";
 const Wallet = () =>{
 
    const [GSTtoken,setGSTtoken] = useAtom(GSTToken)
@@ -17,13 +18,14 @@ const Wallet = () =>{
                     near_address
                 }
                 })
-            setNEARtoken(data.data)
+            const near_balance = Number(formatDecimal(data.data,4))
+            setNEARtoken(near_balance)
         }
        fetchUserBounty()
     },[])
     return (
         <div className="flex h-10">
-        <div className="flex   justify-between border border-yellow-400 px-2 py-1.5 rounded-full pr-10">
+        <div className="flex   justify-between border border-gray-400 bg-white px-2 py-1.5 rounded-full pr-10">
             <div className="flex items-center pr-2">
                 <img className="rounded-full w-6"
                      src="https://s2.coinmarketcap.com/static/img/coins/64x64/16352.png" alt=""/>

@@ -7,7 +7,6 @@ const NEARToken = atomWithStorage('NEAR',0)
 
 
 const NearAccount = atomWithStorage("nearAccount",'')
-const Account = atomWithStorage("account",'')
 const PeopleAvatar = atom("https://cdn.discordapp.com/attachments/897398778166906911/967989384240574484/finish.png")
 const PeopleEmail = atomWithStorage("user_Email",'Zombiesliu@gamil.com')
 const PeopleName = atomWithStorage("user_Name","Learning")
@@ -21,6 +20,9 @@ const OpenGender = atom(false)
 
 
 
+const LoadingState  = atom(false)
 
-export {GSTToken,GMTToken,NEARToken,PeopleAvatar,PeopleEmail,NearAccount,Account,PeopleName,PublicKey,SecretKey,SeedPhrase,PeopleGender,OpenAvatar,OpenName,OpenGender}
+
+export {GSTToken,GMTToken,NEARToken,PeopleAvatar,PeopleEmail,NearAccount,PeopleName,PublicKey,SecretKey,SeedPhrase,PeopleGender,OpenAvatar,OpenName,OpenGender
+,LoadingState}
 

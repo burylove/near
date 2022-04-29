@@ -7,7 +7,7 @@ const Navigation = () =>{
     return (
             <div className=" fixed z-20 bottom-0 w-full px-8 mx-auto">
 
-        <div className="flex justify-between w-full px-4 p-2 border-2 border-yellow-400 rounded-full">
+        <div className="flex justify-between w-full bg-white px-4 p-2 border-2 border-blue-300 rounded-full">
             <Link href="/main">
                 <a className="text-2xl ">
             <i className="fa fa-graduation-cap" aria-hidden="true"></i>

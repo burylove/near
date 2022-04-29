@@ -1,9 +1,6 @@
 import React, {Fragment, useState} from 'react'
 import Link from "next/link";
 import {Listbox, Transition} from "@headlessui/react";
-import {SelectorIcon} from "@heroicons/react/solid";
-import {useAtom} from "jotai";
-import {GMTToken, GSTToken, NEARToken} from "../../../jotai";
 import {Constant} from "../../../constant";
 
 function classNames(...classes) {

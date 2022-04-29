@@ -33,7 +33,7 @@ const Activation = () =>{
             <div className="absolute inset-0">
                 <img
                     className="h-screen w-full mx-auto"
-                    src="https://cdn.discordapp.com/attachments/876498266550853642/969177072507420712/2b1aace3652d68c3.png"
+                    src="https://cdn.discordapp.com/attachments/876498266550853642/969529054967529522/5.png"
                     alt="People working on laptops"
                 />
             </div>
@@ -49,8 +49,8 @@ const Activation = () =>{
                                 />
                             </div>
                             <div>
-                                <button onClick={send} className="py-3 px-8 shadow-lg rounded-lg bg-blue-200 border-black">
-                                    Activation</button>
+                                <button onClick={send} className="">
+                                    <img className="w-32" src="https://cdn.discordapp.com/attachments/876498266550853642/969524082938904606/ACTIVATION.png" alt=""/></button>
                             </div>
                         </div>
                     </div>

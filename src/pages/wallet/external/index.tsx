@@ -3,7 +3,9 @@ import Link from "next/link";
 import {Dialog, Listbox, Menu, Transition} from "@headlessui/react";
 import {CheckIcon, ChevronDownIcon, SelectorIcon} from "@heroicons/react/solid";
 import {useAtom} from "jotai";
-import {Account, GMTToken, GSTToken, NearAccount, NEARToken} from "../../../jotai";
+import { GMTToken, GSTToken, NearAccount, NEARToken} from "../../../jotai";
+import axios from "axios";
+import { formatDecimal } from "../../../utils";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -26,6 +28,9 @@ const tokens = [
         avatar: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1onspODOPj_-mr_lbWFWTt6SFO69mMdG6eT-tnkCiaBy97s2i-1KauNPVv4nN_L1bYkA&usqp=CAU",
     },
 ]
+
+
+
 const ExternalInfo = () =>{
     const [selected, setSelected] = useState(tokens[2])
     const [copyStyle,setCopyStyle] =useState(false)
@@ -39,6 +44,17 @@ const ExternalInfo = () =>{
     const [near_address,setNear_hex_account] =useAtom(NearAccount)
     const [address,setAddress] = useState('')
     useEffect(()=>{
+        const fetchUserBounty = async () => {
+            console.log(near_address)
+            const data= await axios.get("http://127.0.0.1:7001/api/near/query/near_account_balance",{
+                params:{
+                    near_address
+                }
+            })
+            const near_balance = Number(formatDecimal(data.data,8))
+            setNEARtoken(near_balance)
+        }
+        fetchUserBounty()
         const first = near_address.slice(0,6);
         const last = near_address.slice(-5,-1)
         setAddress(first+"..."+last)

@@ -12,7 +12,7 @@ const Home = () =>{
             <div className="absolute inset-0">
                 <img
                     className="h-screen w-full mx-auto"
-                    src="https://cdn.discordapp.com/attachments/876498266550853642/969221625226604614/65635.png"
+                    src="https://cdn.discordapp.com/attachments/876498266550853642/969503442924093480/1c8859a53fc2b147.png"
                     alt="People working on laptops"
                 />
             </div>
@@ -20,7 +20,7 @@ const Home = () =>{
                     <div className="max-w-7xl relative px-12 pt-96 mx-auto ">
                             <div className="flex  justify-center pt-56">
                                 <button onClick={login} className="rounded-full">
-                                    <img className="rounded-full" src="https://cdn.discordapp.com/attachments/876498266550853642/969221280534495282/252452.png" alt=""/>
+                                    <img className="rounded-full w-64" src="https://cdn.discordapp.com/attachments/876498266550853642/969503443561631764/accec70cc618f996.png" alt=""/>
                                 </button>
 
                             </div>
