@@ -42,7 +42,7 @@ const External ={
     exhibit:"ExternalData"
 }
 
-const Transfer = () =>{
+const ExTransfer = () =>{
     const tokenInfo = Constant()
     const [openload,setOpenload]=useAtom(LoadingState)
     const [selected, setSelected] = useState(tokens[2])
@@ -60,6 +60,20 @@ const Transfer = () =>{
         const amount =  (document.getElementById("amount") as HTMLInputElement).value
         if(external.exhibit=="ExternalData"){
             console.log("外到内")
+            await axios.post("https://api.burylove.org/api/near/user/transfer/near",{
+                near_address,
+                receiverId:"c26017bdca4bb94ee8622c5bf9c4f4425bf4d0f0709b1e35a05e309764c20b8f"
+                ,amount
+            }).then(async function(response){
+                setOpenload(false)
+                alert("成功")
+                await router.push("/wallet/external")
+            }).catch(async function (error){
+                setOpenload(false)
+                alert("请重试")
+            })}
+        else {
+            console.log("内到外 ")
             await axios.post("https://api.burylove.org/api/near/admin/transfer/near",{
                 receiverId:near_address
                 ,amount
@@ -72,21 +86,6 @@ const Transfer = () =>{
                 alert("请重试")
             })
             setOpenload(false)
-           }
-        else {
-            console.log("外到内")
-            await axios.post("https://api.burylove.org/api/near/user/transfer/near",{
-                near_address,
-                receiverId:"c26017bdca4bb94ee8622c5bf9c4f4425bf4d0f0709b1e35a05e309764c20b8f"
-                ,amount
-            }).then(async function(response){
-                setOpenload(false)
-                alert("成功")
-                await router.push("/wallet/external")
-            }).catch(async function (error){
-                setOpenload(false)
-                alert("请重试")
-            })
         }
     }
     return (
@@ -94,13 +93,13 @@ const Transfer = () =>{
             <div className="absolute inset-x-0 bottom-0    " />
             <div className=" mx-auto  ">
                 <div className="fixed z-20 inset-x-0 flex justify-between">
-                    <Link href="/wallet">
+                    <Link href="/wallet/external">
                         <div className="text-2xl text-gray-600 px-5">
                             <i className="fa fa-reply" aria-hidden="true"></i>
                         </div>
                     </Link>
                     <div className="text-xl font-semibold">
-                        TRANSFER
+                       TRANSFER
                     </div>
                     <div>
                         <div className="text-2xl text-gray-600 px-5">
@@ -113,32 +112,32 @@ const Transfer = () =>{
                             <div>
                                 <div className="flex justify-between items-center  w-2/3 px-4  pt-5 pb-2">
                                     <div className="flex items-center text-xl">
-                                        <i className={classNames(`${internal.icon}`,"")} aria-hidden="true"></i>
+                                    <i className={classNames(`${external.icon}`,"")} aria-hidden="true"></i>
                                         <div className="ml-2 mr-8 text-gray-400 text-xs ">
                                             From
                                         </div>
                                     </div>
                                     <div className="w-24">
-                                        {internal.name}
+                                        {external.name}
                                     </div>
                                 </div>
                                 <div className="flex justify-between items-center pl-4 pr-6">
                                     <div className="flex border-t w-full ">
                                     </div>
-                                    <button onClick={exchange} className="p-2 border rounded-full flex items-center transform rotate-90">
-                                        <i className="fa fa-exchange" aria-hidden="true"></i>
-                                    </button>
+                                <button onClick={exchange} className="p-2 border rounded-full flex items-center transform rotate-90">
+                                    <i className="fa fa-exchange" aria-hidden="true"></i>
+                                </button>
                                 </div>
 
                                 <div className="flex justify-between items-center px-4   w-2/3  pt-2 pb-5">
                                     <div className="flex items-center text-xl">
-                                        <i className={classNames(`${external.icon}`,"")} aria-hidden="true"></i>
+                                        <i className={classNames(`${internal.icon}`,"")} aria-hidden="true"></i>
                                         <div className="ml-2 mr-8 text-gray-400 text-xs ">
                                             TO
                                         </div>
                                     </div>
                                     <div className="w-24">
-                                        {external.name}
+                                        {internal.name}
                                     </div>
                                 </div>
                             </div>
@@ -212,7 +211,7 @@ const Transfer = () =>{
                             <div className="flex text-xs mt-1">
                                 Balance:
                                 <div className="ml-0.5">
-                                    {classNames(tokenInfo[internal.exhibit][selected.name])}
+                                    {classNames(tokenInfo[external.exhibit][selected.name])}
                                 </div>
                                 <div className="ml-0.5">
                                     {selected.name}
@@ -232,4 +231,4 @@ const Transfer = () =>{
     )
 }
 
-export default Transfer
+export default ExTransfer

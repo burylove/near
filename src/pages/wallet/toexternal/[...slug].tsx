@@ -31,7 +31,8 @@ const ToExternal = () =>{
                     }
                 })
                 console.log(data.data)
-                const near_balance = data.data.toFixed(8)
+                const token = data.data -0.0001
+                const near_balance = Number(token.toFixed(8))
                 setNEARtoken(near_balance)
             }
             fetchUserBounty()
@@ -39,7 +40,7 @@ const ToExternal = () =>{
 
     },[router.isReady])
     const all = ()=>{
-        (document.getElementById("amount") as HTMLInputElement).value =  classNames(tokenInfo.TokenData[tokenName])
+        (document.getElementById("amount") as HTMLInputElement).value = classNames(tokenInfo.TokenData[tokenName])
     }
     const confirm =async ()=>{
         setOpenload(true)
@@ -113,7 +114,7 @@ const ToExternal = () =>{
                         <div className="flex text-xs mt-1">
                             Balance:
                             <div className="ml-0.5 flex">
-                                {classNames(tokenInfo.TokenData[tokenName])}
+                                {classNames(tokenInfo.ExternalData[tokenName])}
                                 <div className="ml-0.5">{tokenName}</div>
                             </div>
                         </div>

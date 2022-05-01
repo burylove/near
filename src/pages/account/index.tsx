@@ -14,8 +14,8 @@ function classNames(...classes) {
 const Account = () =>{
     const [enabled, setEnabled] = useState(false)
     const [name,setName] = useAtom(PeopleName)
-    const[email,setEmail] = useAtom(PeopleEmail)
-    const[avatar,setAvatar] = useAtom(PeopleAvatar)
+    const [email,setEmail] = useAtom(PeopleEmail)
+    const [avatar,setAvatar] = useAtom(PeopleAvatar)
     const  info={
         credit: 4
     }
@@ -194,7 +194,6 @@ const Account = () =>{
                         </div>
                     </div>
 
-
                     <div className=" flex  justify-between items-center mt-10">
                         <div className="flex items-center ">
                             <div className="text-left   ml-2">
@@ -208,6 +207,15 @@ const Account = () =>{
                                0.0.1
                             </div>
                         </div>
+                    </div>
+
+                    <div className="flex justify-center mt-20">
+                        <button
+                            type="button"
+                            className="w-44"
+                        >
+                            <img src="https://cdn.discordapp.com/attachments/876498266550853642/969897114500997160/logout.png" alt=""/>
+                        </button>
                     </div>
                 </div>
             </div>

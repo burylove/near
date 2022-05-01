@@ -3,7 +3,7 @@ import Link from "next/link";
 import {Dialog, Listbox, Menu, Transition} from "@headlessui/react";
 import {CheckIcon, ChevronDownIcon, SelectorIcon} from "@heroicons/react/solid";
 import {useAtom} from "jotai";
-import { GMTToken, GSTToken, NearAccount, NEARToken} from "../../../jotai";
+import {ExternalGMTToken, ExternalGSTToken, ExternalNEARToken, GMTToken, GSTToken, NearAccount, NEARToken} from "../../../jotai";
 import axios from "axios";
 import { formatDecimal } from "../../../utils";
 
@@ -38,9 +38,11 @@ const ExternalInfo = () =>{
     const [openReceive,setOpenReceive] =useState(false)
     const [openExternal,setOpenExternal] =useState(false)
 
-    const [GSTtoken,setGSTtoken] = useAtom(GSTToken)
-    const [GMTtoken,setGMTtoken] = useAtom(GMTToken)
-    const [NEARtoken,setNEARtoken] = useAtom(NEARToken)
+    const [externalGSTtoken,setExternalGSTtoken] = useAtom(ExternalGSTToken)
+    const [externalGMTtoken,setExternalGMTtoken] = useAtom(ExternalGMTToken)
+    const [externalNEARtoken,setExternalNEARtoken] = useAtom(ExternalNEARToken)
+
+
     const [near_address,setNear_hex_account] =useAtom(NearAccount)
     const [address,setAddress] = useState('')
     useEffect(()=>{
@@ -52,7 +54,7 @@ const ExternalInfo = () =>{
                 }
             })
             const near_balance = Number(formatDecimal(data.data,8))
-            setNEARtoken(near_balance)
+            setExternalNEARtoken(near_balance)
         }
         fetchUserBounty()
         const first = near_address.slice(0,6);
@@ -72,7 +74,6 @@ const ExternalInfo = () =>{
         oInput.style.display = 'none';
         document.body.removeChild(oInput);
         setTimeout( function (){
-
             setCopyStyle(false)},2000)
     }
     return(
@@ -136,7 +137,7 @@ const ExternalInfo = () =>{
                             </div>
                             <div className="flex justify-center mt-5 text-2xl font-semibold">
                                 <div>
-                                    {NEARtoken}
+                                    {externalNEARtoken}
                                 </div>
                                 <div className="ml-1">
                                     {tokenName}
@@ -160,7 +161,7 @@ const ExternalInfo = () =>{
                                         Receive
                                     </div>
                                 </button>
-                                <Link href="/wallet/transfer">
+                                <Link href="/wallet/ex-transfer">
                                     <a>
                                     <div className="text-green-500 flex w-14 items-center  text-2xl px-4 py-3.5  border-gray-500 border-2 rounded-full">
                                         <i className="fa fa-refresh" aria-hidden="true"></i>
@@ -212,7 +213,7 @@ const ExternalInfo = () =>{
                                         </div>
                                     </div>
                                     <div className="text-left">
-                                        {NEARtoken}
+                                        {externalNEARtoken}
                                     </div>
                                 </div>
                                 <div className="flex justify-between px-4 py-2 border-t border-b border-gray-500 items-center ">
@@ -226,7 +227,7 @@ const ExternalInfo = () =>{
                                         </div>
                                     </div>
                                     <div className="text-left">
-                                        {GSTtoken}
+                                        {externalGSTtoken}
                                     </div>
                                 </div>
                                 <div className="flex justify-between px-4 py-2  border-b border-gray-500   items-center ">
@@ -240,7 +241,7 @@ const ExternalInfo = () =>{
                                         </div>
                                     </div>
                                     <div className="text-left">
-                                        {GMTtoken}
+                                        {externalGMTtoken}
                                     </div>
                                 </div>
                                 <div className="flex justify-between px-4 py-2 items-center ">
@@ -254,7 +255,7 @@ const ExternalInfo = () =>{
                                         </div>
                                     </div>
                                     <div className="text-left">
-                                        NEARtoken
+                                       0
                                     </div>
                                 </div>
                             </div>
@@ -292,9 +293,9 @@ const ExternalInfo = () =>{
                                 leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                                 leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                             >
-                                <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6">
+                                <div className="inline-block align-bottom bg-white w-full rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6">
                                     <div>
-                                        <div className="   flex justify-center i">
+                                        <div className="   flex justify-center ">
                                             <div className="font-semibold text-center">
                                                 RECEIVE
                                             </div>
@@ -309,8 +310,8 @@ const ExternalInfo = () =>{
                                         <div className="text-center text-sm text-gray-500">
                                             Scan address to receive payment
                                         </div>
-                                        <div className="text-xs px-5 rounded-full border py-0.5 mt-2">
-                                            BNECj6YByqrEHPh36WYqbTXRucXXhaF2qkWpoicKn2h7
+                                        <div className=" flex justify-center  rounded-full border py-0.5 mt-2">
+                                            {address}
                                         </div>
                                         <div className="flex justify-center">
                                             <button

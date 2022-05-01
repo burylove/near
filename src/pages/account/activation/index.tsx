@@ -28,7 +28,15 @@ const Activation = () =>{
     return (
         <div className="relative h-screen overflow-hidden">
             <div className="absolute inset-x-0 bottom-0    " />
+            <div className="absolute inset-0">
+                <img
+                    className="h-screen w-full mx-auto"
+                    src="https://cdn.discordapp.com/attachments/876498266550853642/969899683751284746/acvitation_code.png"
+                    alt="People working on laptops"
+                />
+            </div>
             <div className=" mx-auto  ">
+
                 <div className="fixed z-20 inset-x-0 flex justify-between">
                 <Link href="/main">
                     <div className=" text-2xl text-gray-600 px-5">
@@ -45,7 +53,7 @@ const Activation = () =>{
                 </div>
                 <div className="max-w-7xl relative px-4 pt-20 py-10   mx-auto ">
                     <div>
-                        <div className="border border-black px-10 py-10 rounded-xl">
+                        <div className="border border-black bg-white px-10 py-10 rounded-xl">
                             <div className="flex justify-center">
                                 Availabe/Total
                             </div>
@@ -60,7 +68,7 @@ const Activation = () =>{
                             </div>
                         </div>
 
-                        <div className="border border-black px-10 py-5  h-lg rounded-2xl mt-10">
+                        <div className="border border-black px-10 py-5 bg-white h-lg rounded-2xl mt-10">
                             {code.map((item=>(
                                 <div key={item.id} className="flex justify-between">
                                     <div className="text-sm mb-2">

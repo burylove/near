@@ -39,13 +39,12 @@ const Email = () =>{
                                id="Password"
                         />
                     </div>
-
                     <div className="flex justify-center mt-20">
                         <button
                             type="button"
-                            className="w-36 flex mt-5  justify-center rounded-full border border-transparent shadow-sm px-4 py-2 bg-blue-300 text-base font-medium text-white "
+                            className="w-40"
                         >
-                            SAVE
+                            <img src="https://cdn.discordapp.com/attachments/876498266550853642/969896824569757706/EMAIL_NAME_PASSWORD.png" alt=""/>
                         </button>
                     </div>
                 </div>

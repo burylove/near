@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import Link from "next/link";
 import { Tab } from '@headlessui/react';
-import {GMTToken, GSTToken, NEARToken} from "../../jotai";
+import {GMTToken, GSTToken, NearAccount, NEARToken} from "../../jotai";
 import {useAtom} from "jotai";
+import axios from "axios";
+import {formatDecimal} from "../../utils";
 
 
 function classNames(...classes) {
@@ -10,9 +12,23 @@ function classNames(...classes) {
 }
 
 const InternalInfo = () =>{
-    const [GSTtoken,] = useAtom(GSTToken)
-    const [GMTtoken,] = useAtom(GMTToken)
-    const [NEARtoken,] = useAtom(NEARToken)
+    const [GSTtoken,setGSTtoken] = useAtom(GSTToken)
+    const [GMTtoken,setGMTtoken] = useAtom(GMTToken)
+    const [NEARtoken,setNEARtoken] = useAtom(NEARToken)
+    const [near_address,setNear_hex_account] =useAtom(NearAccount)
+    useEffect(() =>{
+        const fetchUserBounty = async () => {
+            console.log(near_address)
+            const data= await axios.get("https://api.burylove.org/api/near/query/near_internal_account_balance",{
+                params:{
+                    near_address
+                }
+            })
+            const near_balance = Number(formatDecimal(data.data,4))
+            setNEARtoken(near_balance)
+        }
+        fetchUserBounty()
+    },[])
     return(
         <>
          <div className="max-w-7xl relative px-8 pt-20 pb-10   mx-auto ">

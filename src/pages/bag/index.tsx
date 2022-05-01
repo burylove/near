@@ -1,7 +1,12 @@
-import React, { useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import Header from "../../components/header";
 import { Tab } from '@headlessui/react';
 import Navigation from "../../components/navigation";
+import {useAtom} from "jotai";
+import {NearAccount} from "../../jotai";
+import axios from "axios";
+import {formatDecimal} from "../../utils";
+import {PetStyle} from "../../constant";
 
 
 function classNames(...classes) {
@@ -9,57 +14,53 @@ function classNames(...classes) {
 }
 
 const Pet = () =>{
+    const [near_address,] =useAtom(NearAccount)
+    const [pet,setPet] = useState([])
 
-    const pet = [
-        {
-            number:"#asdasd",
-            img:"/1.png",
-            one:"32",
-            two:"1",
-            three:"4",
-            four:"2",
+    useEffect(()=>{
+        const fetchUserBounty = async () => {
+            console.log(near_address)
+            const data= await axios.get("https://api.burylove.org/api/near/user/pet/all",{
+                params:{
+                    near_address:'zombies.testnet'
+                }}
+            )
+            setPet(data.data)
+        }
+        fetchUserBounty()
+    },[])
 
-        },
-        {
-            number:"#xzczxc",
-            img:"/1.png",
-            one:"32",
-            two:"1",
-            three:"4",
-            four:"2",
 
-        },
-        {
-            number:"#1021392",
-            img:"/1.png",
-            one:"32",
-            two:"12",
-            three:"10",
-            four:"22",
-
-        },
-
-    ]
     return(
         <>
             <div className="grid grid-cols-2 gap-3">
                 {pet.map((item=>(
-                    <div key={item.number} className=" rounded-2xl  text-center border border-gray-500 border-2 border-b-4 border-r-4">
-                        <div className="p-2 px-4 border-b border-gray-500">
-                            <div>
-                                {item.number}
+                    <div key={item.near_pet_index} className=" rounded-2xl  text-center border border-gray-500 border-2 border-b-4 border-r-4">
+                        <div className=" px-4  border-gray-500">
+                            <div className="flex justify-center items-center">
+                            <div className={classNames(PetStyle[item.near_pet_type],'rounded-b-xl w-5/6 ')}>
+                                #{item.near_pet_index}
                             </div>
-                            <img className="mx-auto w-24 py-1" src={item.img} alt=""/>
+                            </div>
+                            <img className="mx-auto  py-3" src={item.near_pet_image_url} alt=""/>
+                            <div className="flex justify-between text-sm px-4 font-semibold pb-2">
+                                <div>
+                                    Mint:{item.near_pet_birth_times}
+                                </div>
+                                <div>
+                                    Lv {item.near_pet_level}
+                                </div>
+                            </div>
                         </div>
 
                         <div>
-                            <div className="  flex justify-between p-2 mx-2 items-center">
+                            <div className="flex justify-between p-2 px-3 items-center rounded-b-xl bg-gray-200">
                                 <div className="flex  text-sm mr-2">
                                     <div>
                                         <i className="fa fa-arrow-circle-o-down text-indigo-400" aria-hidden="true"></i>
                                     </div>
                                     <div className="ml-0.5">
-                                        {item.one}
+                                        {item.near_pet_health_value}
                                     </div>
                                 </div>
                                 <div className="flex  text-sm mr-2">
@@ -67,7 +68,7 @@ const Pet = () =>{
                                         <i className="fa fa-arrow-circle-o-left text-yellow-300" aria-hidden="true"></i>
                                     </div>
                                     <div className="ml-0.5">
-                                        {item.two}
+                                        {item.near_pet_intelligence_value}
                                     </div>
                                 </div>
                                 <div className="flex  text-sm mr-2">
@@ -75,7 +76,7 @@ const Pet = () =>{
                                         <i className="fa fa-arrow-circle-o-right text-blue-400" aria-hidden="true"></i>
                                     </div>
                                     <div className="ml-0.5">
-                                        {item.three}
+                                        {item.near_pet_charisma_value}
                                     </div>
                                 </div>
                                 <div className="flex  text-sm mr-2">
@@ -83,7 +84,7 @@ const Pet = () =>{
                                         <i className="fa fa-arrow-circle-o-up text-green-400" aria-hidden="true"></i>
                                     </div>
                                     <div className="ml-0.5">
-                                        {item.four}
+                                        {item.near_pet_lucky_value}
                                     </div>
                                 </div>
 
@@ -123,7 +124,7 @@ const Eggs = () =>{
             <div className="grid grid-cols-2 gap-3">
                 {pet.map((item=>(
                     <div key={item.number} className=" rounded-2xl  text-center border border-gray-500 border-2 border-b-4 border-r-4">
-                        <div className="p-2 px-4 border-b border-gray-500">
+                        <div className="p-2 px-4  border-gray-500">
                             <div>
                                 {item.number}
                             </div>
@@ -131,7 +132,7 @@ const Eggs = () =>{
                         </div>
 
                         <div>
-                            <div className=" p-2 mx-2 items-center">
+                            <div className=" p-2 px-3 items-center rounded-b-xl bg-gray-200">
                                 <button className="px-2 py-0.5  border border-gray-500 border border-r-2 border-b-2 rounded-full text-sm ">
                                     OPEN
                                 </button>
