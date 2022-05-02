@@ -13,33 +13,52 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 const Main = () =>{
+    const info = [
+        {
+            number:"1",
+            img:"https://cdn.discordapp.com/attachments/876498266550853642/969892589354512394/72fb26297978255e.png",
+            lvl:"5",
+        },
+        {
+            number:"2",
+            img:"https://cdn.discordapp.com/attachments/876498266550853642/969892589669072926/2b589afe10e09b84.png",
+            lvl:"10",
+        },
+        {
+            number:"3",
+            img:"/1.png",
+            lvl:"15",
+        },
+
+
+
+    ]
     const router = useRouter()
-    const [Pet,setPetList] = useAtom(PetList)
+    // const [Pet,setPetList] = useAtom(PetList)
+    const [Pet,setPetList] = useState(info)
     const [clickNmu,SetClickNmu]  = useState(0)
-    // const [pet,setPet] = useState(Pet[clickNmu])
-    const [pet,setPet] = useAtom(pet_info)
+    const [pet,setPet] = useState(Pet[clickNmu])
+    // const [pet,setPet] = useAtom(pet_info)
     const [near_address,] =useAtom(NearAccount)
 
-    useEffect(()=>{
-        if (router.isReady){
-            const fetchUserBounty = async () => {
-                // console.log(near_address)
-                const data= await axios.get("https://api.burylove.org/api/near/user/pet/all",{
-                    params:{
-                        near_address:'zombies.testnet'
-                    }})
-                // console.log(data.data)
-                setPetList(data.data)
-                // setPet(data.data)
-            }
-            fetchUserBounty()
-        }
-    },[router.isReady])
+    // useEffect(()=>{
+    //     if (router.isReady){
+    //         const fetchUserBounty = async () => {
+    //             // console.log(near_address)
+    //             const data= await axios.get("https://api.burylove.org/api/near/user/pet/all",{
+    //                 params:{
+    //                     near_address:'zombies.testnet'
+    //                 }})
+    //             // console.log(data.data)
+    //             setPetList(data.data)
+    //             // setPet(data.data)
+    //         }
+    //         fetchUserBounty()
+    //     }
+    // },[router.isReady])
     let new_clickNum
-    let int
+
     const right = () => {
-        clearInterval(int)
-         int = setTimeout(()=>{
             new_clickNum = clickNmu + 1
             if (new_clickNum < Pet.length) {
                 SetClickNmu(new_clickNum)
@@ -48,12 +67,9 @@ const Main = () =>{
                 SetClickNmu(0)
                 setPet(Pet[0])
             }
-        },100)
 
     }
     const left = () => {
-        clearInterval(int)
-        int = setTimeout(()=>{
             if(clickNmu == 0 ){
                 SetClickNmu(Pet.length-1)
                 setPet(Pet[Pet.length-1])
@@ -67,7 +83,6 @@ const Main = () =>{
                     setPet(Pet[0])
                 }
             }
-        },100)
     }
 
 
@@ -98,7 +113,7 @@ const Main = () =>{
                             >
                                 <div className="border-2 border-gray-400 bg-white rounded-2xl border-b-4 border-r-4">
                                     <div className="text-center mt-4 mb-10">
-                                        #{pet}
+                                        #{pet.number}
                                     </div>
                                     <div className="flex px-4 items-center text-2xl h-56 text-gray-400">
                                         <div className="">
@@ -107,7 +122,7 @@ const Main = () =>{
                                             </button>
                                         </div>
                                         <Link href="/bag/detail">
-                                            <img className="w-36 mx-auto" src="" alt=""/>
+                                            <img className="w-36 mx-auto" src={pet.img} alt=""/>
                                         </Link>
                                         <div>
                                             <button onClick={right}>
@@ -120,7 +135,7 @@ const Main = () =>{
                                         <div className="rounded-full border border-gray-400 w-20 h-5">
                                         </div>
                                         <div>
-                                            LV{pet}
+                                            LV{pet.lvl}
                                         </div>
                                         <div className="rounded-full border border-gray-400 w-20 h-5">
                                         </div>
@@ -197,7 +212,7 @@ const Main = () =>{
                             >
                                 <div className="border-2 border-gray-400 bg-white rounded-2xl border-b-4 border-r-4">
                                     <div className="text-center mt-4 mb-10">
-                                        #{pet}
+                                        #{pet.number}
                                     </div>
                                     <div className="flex px-4 items-center text-2xl h-56 text-gray-400">
                                         <div className="">
@@ -206,7 +221,7 @@ const Main = () =>{
                                             </button>
                                         </div>
                                         <Link href="/bag/detail">
-                                            <img className="w-36 mx-auto" src="" alt=""/>
+                                            <img className="w-36 mx-auto" src={pet.img} alt=""/>
                                         </Link>
                                         <div>
                                             <button onClick={right}>
@@ -219,7 +234,7 @@ const Main = () =>{
                                         <div className="rounded-full border border-gray-400 w-20 h-5">
                                         </div>
                                         <div>
-                                            LV{pet}
+                                            LV{pet.lvl}
                                         </div>
                                         <div className="rounded-full border border-gray-400 w-20 h-5">
                                         </div>

@@ -24,7 +24,7 @@ const Constant = ()=>{
 }
 const PetStyle=
     {
-        Common:"bg-gray-500 text-black",
+        Common:"bg-gray-500 text-white",
         Uncommon:"bg-green-600 text-white",
         Rare:"bg-blue-400 text-white" ,
         Epic:"bg-indigo-400 text-white",

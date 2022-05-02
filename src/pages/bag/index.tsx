@@ -7,6 +7,8 @@ import {NearAccount} from "../../jotai";
 import axios from "axios";
 import {formatDecimal} from "../../utils";
 import {PetStyle} from "../../constant";
+import {route} from "next/dist/server/router";
+import router from 'next/router';
 
 
 function classNames(...classes) {
@@ -101,39 +103,46 @@ const Pet = () =>{
 }
 
 const Eggs = () =>{
-    const pet = [
-        {
-            number:"#asdasd",
-            img:"/1.png",
-            price:"32312",
-        },
-        {
-            number:"#xzczxc",
-            img:"/1.png",
-            price:"32312",
-        },
-        {
-            number:"#1021392",
-            img:"/1.png",
-            price:"32312",
-        },
+    const [near_address,] =useAtom(NearAccount)
+    const [pet,setPet] = useState([])
 
-    ]
+    useEffect(()=>{
+        const fetchUserBounty = async () => {
+            console.log(near_address)
+            const data= await axios.get("https://api.burylove.org/api/near/user/pet_eggs/all",{
+                params:{
+                    near_address:'zombies.testnet'
+                }}
+            )
+            setPet(data.data)
+            console.log(data.data)
+        }
+        fetchUserBounty()
+    },[])
+    const open = async (e) =>{
+        await axios.post("https://api.burylove.org/api/near/user/open/pet_eggs",{
+            near_address:"zombies.testnet",
+            near_pet_eggs_index:e
+        })
+        await location.reload()
+    }
     return(
         <>
             <div className="grid grid-cols-2 gap-3">
                 {pet.map((item=>(
-                    <div key={item.number} className=" rounded-2xl  text-center border border-gray-500 border-2 border-b-4 border-r-4">
-                        <div className="p-2 px-4  border-gray-500">
-                            <div>
-                                {item.number}
+                    <div key={item.near_pet_eggs_index} className=" rounded-2xl  text-center border border-gray-500 border-2 border-b-4 border-r-4">
+                        <div className=" px-4  border-gray-500">
+                            <div className="flex justify-center items-center">
+                                <div className={classNames(PetStyle[item.near_pet_eggs_type],'rounded-b-xl w-5/6 ')}>
+                                    #{item.near_pet_eggs_index}
+                                </div>
                             </div>
-                            <img className="mx-auto py-1 rounded-full w-24" src={item.img} alt=""/>
+                            <img className="mx-auto py-1  rounded-full w-24" src={item.near_pet_eggs_image_url} alt=""/>
                         </div>
 
                         <div>
                             <div className=" p-2 px-3 items-center rounded-b-xl bg-gray-200">
-                                <button className="px-2 py-0.5  border border-gray-500 border border-r-2 border-b-2 rounded-full text-sm ">
+                                <button onClick={()=>{open(item.near_pet_eggs_index)}} className="px-2 py-0.5  border border-gray-500 border border-r-2 border-b-2 rounded-full text-sm ">
                                     OPEN
                                 </button>
 

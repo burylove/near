@@ -76,6 +76,20 @@ const ExternalInfo = () =>{
         setTimeout( function (){
             setCopyStyle(false)},2000)
     }
+    const Copy1 = (e) => {
+        const spanText1 = document.getElementById(e).innerText;
+        const oInput1 = document.createElement('input');
+        oInput1.value = spanText1;
+        document.body.appendChild(oInput1);
+        oInput1.select();
+        document.execCommand('Copy');
+        oInput1.className = 'oInput1';
+        oInput1.style.display = 'hidden';
+        document.body.removeChild(oInput1);
+        console.log(spanText1)
+        // setOpenReceive(false)
+
+    }
     return(
         <>
             <div className="relative">
@@ -315,6 +329,7 @@ const ExternalInfo = () =>{
                                         </div>
                                         <div className="flex justify-center">
                                             <button
+                                                onClick={() => {Copy('address') }}
                                                 type="button"
                                                 className="w-full flex mt-5  justify-center rounded-full border border-transparent shadow-sm px-4 py-2 bg-blue-300 text-base font-medium text-white "
                                             >
