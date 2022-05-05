@@ -9,6 +9,7 @@ import {formatDecimal} from "../../utils";
 import {PetStyle} from "../../constant";
 import {route} from "next/dist/server/router";
 import router from 'next/router';
+import Link from "next/link";
 
 
 function classNames(...classes) {
@@ -22,7 +23,7 @@ const Pet = () =>{
     useEffect(()=>{
         const fetchUserBounty = async () => {
             console.log(near_address)
-            const data= await axios.get("https://api.burylove.org/api/near/user/pet/all",{
+            const data= await axios.get("http://127.0.0.1:7001/api/near/user/pet/all",{
                 params:{
                     near_address:'zombies.testnet'
                 }}
@@ -37,7 +38,8 @@ const Pet = () =>{
         <>
             <div className="grid grid-cols-2 gap-3">
                 {pet.map((item=>(
-                    <div key={item.near_pet_index} className=" rounded-2xl  text-center border border-gray-500 border-2 border-b-4 border-r-4">
+                    <Link href="/pet" key={item.near_pet_index} >
+                    <a className=" rounded-2xl  text-center border border-gray-500 border-2 border-b-4 border-r-4">
                         <div className=" px-4  border-gray-500">
                             <div className="flex justify-center items-center">
                             <div className={classNames(PetStyle[item.near_pet_type],'rounded-b-xl w-5/6 ')}>
@@ -95,7 +97,8 @@ const Pet = () =>{
 
                         </div>
 
-                    </div>
+                    </a>
+                    </Link>
                 )))}
             </div>
         </>
@@ -109,7 +112,7 @@ const Eggs = () =>{
     useEffect(()=>{
         const fetchUserBounty = async () => {
             console.log(near_address)
-            const data= await axios.get("https://api.burylove.org/api/near/user/pet_eggs/all",{
+            const data= await axios.get("http://127.0.0.1:7001/api/near/user/pet_eggs/all",{
                 params:{
                     near_address:'zombies.testnet'
                 }}
@@ -120,7 +123,7 @@ const Eggs = () =>{
         fetchUserBounty()
     },[])
     const open = async (e) =>{
-        await axios.post("https://api.burylove.org/api/near/user/open/pet_eggs",{
+        await axios.post("http://127.0.0.1:7001/api/near/user/open/pet_eggs",{
             near_address:"zombies.testnet",
             near_pet_eggs_index:e
         })

@@ -1,30 +1,10 @@
-import React, {useEffect, useState} from 'react'
-import axios from "axios";
-import {useAtom} from "jotai";
-import {NearAccount} from "../../jotai";
-
+import React from 'react'
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
 const Test = () =>{
-    const [near_address,] =useAtom(NearAccount)
-    const [pet,setPet] = useState([])
-
-    useEffect(()=>{
-        const fetchUserBounty = async () => {
-            console.log(near_address)
-            const data= await axios.get("https://api.burylove.org/api/near/user/pet/all",{
-                params:{
-                    near_address:'zombies.testnet'
-                }}
-            )
-            setPet(data.data)
-        }
-        fetchUserBounty()
-    },[])
-    console.log("qq"+pet)
 
     return (
         <div className="relative">

@@ -60,7 +60,7 @@ const Transfer = () =>{
         const amount =  (document.getElementById("amount") as HTMLInputElement).value
         if(external.exhibit=="ExternalData"){
             console.log("外到内")
-            await axios.post("https://api.burylove.org/api/near/admin/transfer/near",{
+            await axios.post("http://127.0.0.1:7001/api/near/admin/transfer/near",{
                 receiverId:near_address
                 ,amount
             }).then(async function(response){
@@ -75,7 +75,7 @@ const Transfer = () =>{
            }
         else {
             console.log("外到内")
-            await axios.post("https://api.burylove.org/api/near/user/transfer/near",{
+            await axios.post("http://127.0.0.1:7001/api/near/user/transfer/near",{
                 near_address,
                 receiverId:"c26017bdca4bb94ee8622c5bf9c4f4425bf4d0f0709b1e35a05e309764c20b8f"
                 ,amount
@@ -206,7 +206,7 @@ const Transfer = () =>{
                                        className="text-xs md:text-sm   rounded-lg p-2 py-3 w-full border-gray-700 border border-2 border-b-4 border-r-4  focus:border-blue-500 transition duration-300  outline-none"
                                        id="amount"
                                 />
-                                <div onClick={all} className="-ml-12 text-sm flex items-center text-yellow-400">
+                                <div onClick={all} className="-ml-12 text-xs flex items-center text-yellow-400">
                                     MAX
                                 </div></div>
                             <div className="flex text-xs mt-1">

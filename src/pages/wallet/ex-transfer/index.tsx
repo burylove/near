@@ -60,7 +60,7 @@ const ExTransfer = () =>{
         const amount =  (document.getElementById("amount") as HTMLInputElement).value
         if(external.exhibit=="ExternalData"){
             console.log("外到内")
-            await axios.post("https://api.burylove.org/api/near/user/transfer/near",{
+            await axios.post("http://127.0.0.1:7001/api/near/user/transfer/near",{
                 near_address,
                 receiverId:"c26017bdca4bb94ee8622c5bf9c4f4425bf4d0f0709b1e35a05e309764c20b8f"
                 ,amount
@@ -74,7 +74,7 @@ const ExTransfer = () =>{
             })}
         else {
             console.log("内到外 ")
-            await axios.post("https://api.burylove.org/api/near/admin/transfer/near",{
+            await axios.post("http://127.0.0.1:7001/api/near/admin/transfer/near",{
                 receiverId:near_address
                 ,amount
             }).then(async function(response){
@@ -93,11 +93,11 @@ const ExTransfer = () =>{
             <div className="absolute inset-x-0 bottom-0    " />
             <div className=" mx-auto  ">
                 <div className="fixed z-20 inset-x-0 flex justify-between">
-                    <Link href="/wallet/external">
+                    <button onClick={()=>{window.history.back()}}>
                         <div className="text-2xl text-gray-600 px-5">
                             <i className="fa fa-reply" aria-hidden="true"></i>
                         </div>
-                    </Link>
+                    </button>
                     <div className="text-xl font-semibold">
                        TRANSFER
                     </div>

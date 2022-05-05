@@ -3,6 +3,7 @@ import Header from "../../components/header";
 import {Listbox, Tab, Transition } from '@headlessui/react';
 import Navigation from "../../components/navigation";
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid';
+import Link from "next/link";
 
 
 function classNames(...classes) {
@@ -83,7 +84,8 @@ const Pet = () =>{
                 </Listbox>
             <div className="grid grid-cols-2 gap-3">
                 {pet.map((item=>(
-                    <div key={item.number} className=" rounded-2xl  text-center border border-gray-500 border-2 border-b-4 border-r-4">
+                    <Link href="/shop/detail" key={item.number}>
+                    <div  className=" rounded-2xl  text-center border border-gray-500 border-2 border-b-4 border-r-4">
                         <div className="p-2 px-4 border-b border-gray-500">
                             <div>
                                 {item.number}
@@ -111,6 +113,7 @@ const Pet = () =>{
                         </div>
 
                     </div>
+                    </Link>
                 )))}
             </div>
             </div>
