@@ -1,5 +1,13 @@
 import {useAtom} from "jotai";
-import {ExternalGMTToken, ExternalGSTToken, ExternalNEARToken, GMTToken, GSTToken, NEARToken} from "../jotai";
+import {
+    ExternalGMTToken,
+    ExternalGSTToken,
+    ExternalNEARToken,
+    ExternalUSNToken,
+    GMTToken,
+    GSTToken,
+    NEARToken
+} from "../jotai";
 
 const Constant = ()=>{
     const [GST,] = useAtom(GSTToken)
@@ -8,13 +16,14 @@ const Constant = ()=>{
     const [externalGSTtoken,] = useAtom(ExternalGSTToken)
     const [externalGMTtoken,] = useAtom(ExternalGMTToken)
     const [externalNEARtoken,] = useAtom(ExternalNEARToken)
+    const [externalUSNtoken,] = useAtom(ExternalUSNToken)
     const TokenData= { GST, GMT, NEAR}
     const ExternalData = {
         GST:externalGSTtoken,
         GMT:externalGMTtoken,
-        NEAR:externalNEARtoken
+        NEAR:externalNEARtoken,
+        USN:externalUSNtoken
     }
-
     const TokenImg = {
         GST:"https://s2.coinmarketcap.com/static/img/coins/64x64/16352.png",
         GMT:"https://s2.coinmarketcap.com/static/img/coins/200x200/18069.png",

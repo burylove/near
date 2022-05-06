@@ -205,6 +205,7 @@ const Transfer = () =>{
                                 <input type="text"
                                        className="text-xs md:text-sm   rounded-lg p-2 py-3 w-full border-gray-700 border border-2 border-b-4 border-r-4  focus:border-blue-500 transition duration-300  outline-none"
                                        id="amount"
+
                                 />
                                 <div onClick={all} className="-ml-12 text-xs flex items-center text-yellow-400">
                                     MAX

@@ -2,6 +2,13 @@ import React, {Fragment, useState} from 'react'
 import Link from "next/link";
 import {Listbox, Transition} from "@headlessui/react";
 import {Constant} from "../../../constant";
+import axios from "axios";
+import {useAtom} from "jotai";
+import {LoadingState, NearAccount} from "../../../jotai";
+import BN from 'bn.js';
+import {formatDecimal} from "../../../utils";
+import Loading from "../../../components/loading";
+import {log} from "util";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -23,14 +30,49 @@ const tokens = [
         name: 'NEAR',
         avatar: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1onspODOPj_-mr_lbWFWTt6SFO69mMdG6eT-tnkCiaBy97s2i-1KauNPVv4nN_L1bYkA&usqp=CAU",
     },
+    {
+        id: 4,
+        name: 'USN',
+        avatar: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1onspODOPj_-mr_lbWFWTt6SFO69mMdG6eT-tnkCiaBy97s2i-1KauNPVv4nN_L1bYkA&usqp=CAU",
+    },
 ]
 const Trade = () =>{
     const tokenInfo = Constant()
-    const [selected, setSelected] = useState(tokens[2])
-    const [selected1, setSelected1] = useState(tokens[0])
+    const [selected, setSelected] = useState(tokens[0])
+    const [selected1, setSelected1] = useState(tokens[3])
+    const [openload,setOpenload]=useAtom(LoadingState)
+    const [near_address,setNear_hex_account] =useAtom(NearAccount)
     const exchange = ()=>{
         setSelected(selected1),
         setSelected1(selected)
+    }
+    const all = ()=>{
+       (document.getElementById("amount") as HTMLInputElement).value =  classNames(tokenInfo.ExternalData[selected.name])
+    }
+    const Check_TokenNumber =async ()=>{
+        const data = (document.getElementById("amount") as HTMLInputElement).value
+        const b = Number(data)
+        const a = new BN(b).mul(new BN('10000000000000000000000000000')).toString()
+        await axios.get("http://127.0.0.1:7001/api/near/user/swap/tokenA_to_usn_number",{
+            params:{
+                near_address,
+                amount_in: a
+            }
+        }).then((data)=>{
+       (document.getElementById("to") as HTMLInputElement).value = Number(formatDecimal(data.data/100000000000000000,2)).toString()
+            console.log(data.data/100000000000000000)
+             })
+    }
+    const trade = async ()=>{
+        setOpenload(true)
+        setTimeout(()=>{
+            setOpenload(false)
+        },2000)
+        const b = Number(classNames(tokenInfo.ExternalData[selected.name]))
+        const amount_in = new BN(b).mul(new BN('10000000000000000000000000000')).toString()
+        await axios.post("http://127.0.0.1:7001/api/near/user/swap/tokenA_to_usn",{
+            near_address,amount_in
+        })
     }
 
     return (
@@ -62,7 +104,7 @@ const Trade = () =>{
                                 <div className="flex text-xs mt-1">
                                     Balance:
                                     <div className="ml-0.5">
-                                        {classNames(tokenInfo.TokenData[selected.name])}
+                                        {classNames(tokenInfo.ExternalData[selected.name])}
                                     </div>
                                 </div>
                             </div>
@@ -70,10 +112,11 @@ const Trade = () =>{
                                 <div className="flex">
                                     <input type="text"
                                            className="text-xs md:text-sm   rounded-lg p-2 py-3 w-full border-gray-700  transition duration-300  outline-none"
-                                           id="code"
+                                           id="amount"
                                            placeholder="0.00"
+                                           onKeyUp={Check_TokenNumber}
                                     />
-                                    <button className=" text-xs flex items-center text-yellow-400 ">
+                                    <button onClick={all} className=" text-xs flex items-center text-yellow-400 ">
                                         MAX
                                     </button>
                                 </div>
@@ -142,16 +185,20 @@ const Trade = () =>{
                         <div className="py-6  px-4 border-gray-500 rounded-2xl border-2 border-r-4 border-b-4">
                             <div className="flex justify-between text-gray-500 text-sm items-center">
                                 <div>
-                                    From
+                                    To
                                 </div>
+                                <button onClick={Check_TokenNumber} className=''>
+                                    Check
+                                </button>
 
                             </div>
                             <div className="flex mt-4">
                                 <div className="flex">
                                     <input type="text"
                                            className="text-xs md:text-sm   rounded-lg p-2 py-3 w-full border-gray-700  transition duration-300  outline-none"
-                                           id="code"
+                                           id="to"
                                            readOnly={true}
+
                                     />
                                 </div>
 
@@ -212,13 +259,14 @@ const Trade = () =>{
                         </div>
 
                         <div className="flex justify-center mt-10 ">
-                            <button className="w-10/12 flex mt-10  justify-center rounded-full border border-transparent shadow-sm px-4 py-2 bg-blue-300 text-base font-medium text-white ">
+                            <button onClick={trade} className="w-10/12 flex mt-10  justify-center rounded-full border border-transparent shadow-sm px-4 py-2 bg-blue-300 text-base font-medium text-white ">
                                 TRADE
                             </button>
                         </div>
 
                     </div>
                 </div>
+                <Loading/>
             </div>
         </div>
     )

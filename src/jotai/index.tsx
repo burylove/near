@@ -8,6 +8,7 @@ const NEARToken = atomWithStorage('NEAR',0)
 const ExternalNEARToken = atomWithStorage('ExternalNEAR',0)
 const ExternalGSTToken = atomWithStorage("ExternalGST",0)
 const ExternalGMTToken = atomWithStorage('ExternalGMT',0)
+const ExternalUSNToken = atomWithStorage('ExternalUSN',0)
 
 const NearAccount = atomWithStorage("nearAccount",'')
 const PeopleAvatar = atom("https://cdn.discordapp.com/attachments/897398778166906911/967989384240574484/finish.png")
@@ -29,5 +30,5 @@ const PetList = atom ([])
 const pet_info = atom([])
 
 export {GSTToken,GMTToken,NEARToken,PeopleAvatar,PeopleEmail,NearAccount,PeopleName,PublicKey,SecretKey,SeedPhrase,PeopleGender,OpenAvatar,OpenName,OpenGender
-,LoadingState,PetList,pet_info,ExternalNEARToken,ExternalGSTToken,ExternalGMTToken}
+,LoadingState,PetList,pet_info,ExternalNEARToken,ExternalUSNToken,ExternalGSTToken,ExternalGMTToken}
 

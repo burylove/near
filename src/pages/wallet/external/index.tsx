@@ -3,7 +3,16 @@ import Link from "next/link";
 import {Dialog, Listbox, Menu, Transition} from "@headlessui/react";
 import {CheckIcon, ChevronDownIcon, SelectorIcon} from "@heroicons/react/solid";
 import {useAtom} from "jotai";
-import {ExternalGMTToken, ExternalGSTToken, ExternalNEARToken, GMTToken, GSTToken, NearAccount, NEARToken} from "../../../jotai";
+import {
+    ExternalGMTToken,
+    ExternalGSTToken,
+    ExternalNEARToken,
+    ExternalUSNToken,
+    GMTToken,
+    GSTToken,
+    NearAccount,
+    NEARToken
+} from "../../../jotai";
 import axios from "axios";
 import { formatDecimal } from "../../../utils";
 
@@ -41,8 +50,7 @@ const ExternalInfo = () =>{
     const [externalGSTtoken,setExternalGSTtoken] = useAtom(ExternalGSTToken)
     const [externalGMTtoken,setExternalGMTtoken] = useAtom(ExternalGMTToken)
     const [externalNEARtoken,setExternalNEARtoken] = useAtom(ExternalNEARToken)
-
-
+    const [externalUSNtoken,setExternalUSNtoken] = useAtom(ExternalUSNToken)
     const [near_address,setNear_hex_account] =useAtom(NearAccount)
     const [address,setAddress] = useState('')
     useEffect(()=>{
@@ -55,6 +63,21 @@ const ExternalInfo = () =>{
             })
             const near_balance = Number(formatDecimal(data.data,8))
             setExternalNEARtoken(near_balance)
+            const USN = await axios.get("http://127.0.0.1:7001/api/near/query/near_account_usn_balance",
+                {
+                    params:{
+                        near_address
+                    }
+                })
+            const USN_balance =Number(formatDecimal(USN.data/1000000000000000000,8))
+                setExternalUSNtoken(USN_balance)
+            const GST = await  axios.get("http://127.0.0.1:7001/api/near/query/near_account_tokenA_balance",{
+                params:{
+                    near_address
+                }
+            })
+            const GST_balance = Number(formatDecimal(GST.data/10000000000000000000000000000,2))
+            setExternalGSTtoken(GST_balance)
         }
         fetchUserBounty()
         const first = near_address.slice(0,6);
@@ -269,7 +292,7 @@ const ExternalInfo = () =>{
                                         </div>
                                     </div>
                                     <div className="text-left">
-                                       0
+                                        {externalUSNtoken}
                                     </div>
                                 </div>
                             </div>

@@ -29,7 +29,9 @@ const Pet = () =>{
                 }}
             )
             setPet(data.data)
+            console.log(data)
         }
+
         fetchUserBounty()
     },[])
 
