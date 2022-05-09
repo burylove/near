@@ -419,15 +419,15 @@ const Detail = () =>{
                                     </div>
                                     <div className="mt-5 ">
                                         <div className="flex justify-center">
-                                            <img className="w-36 " src="/1.png" alt=""/>
+                                            <img className="w-36 " src={info.near_pet_image_url} alt=""/>
                                         </div>
                                         <div className="flex justify-center mt-2 font-semibold text-md">
-                                            Lv 9
+                                            Lv {info.near_pet_level}
                                         </div>
                                         <div className="flex text-gray-500 text-md mt-4">
                                             Level up to
                                             <div className="ml-1 text-black font-semibold text-md">
-                                                Lv 10
+                                                Lv {Number(info.near_pet_level)+1}
                                             </div>
                                         </div>
                                         <div
@@ -435,14 +435,13 @@ const Detail = () =>{
                                             <div className=" text-gray-500"> Cost</div>
                                             <div className="font-semibold">
                                                 30GST+30GMT
-
                                             </div>
                                         </div>
                                         <div
                                             className="flex mt-2 justify-between border border-gray-500 bg-gray-100 rounded-full px-2 py-1">
                                             <div className=" text-gray-500"> Time</div>
                                             <div className="font-semibold">
-                                                600 mins
+                                                {Number(info.near_pet_level)*60}mins
                                             </div>
                                         </div>
 
@@ -517,7 +516,7 @@ const Detail = () =>{
                                             <img className="w-36 " src="/1.png" alt=""/>
                                         </div>
                                         <div className="flex justify-center mt-2 font-semibold text-md">
-                                            Durability:100/100
+                                            Durability:{info.near_pet_hunger_value}/100
                                         </div>
                                         <div className="relative pt-1">
                                             <div className="range">
