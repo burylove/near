@@ -19,21 +19,6 @@ const Detail = () =>{
     const [openSell,setOpenSell] = useState(false)
     const [openSellPrice,setOpenSellPrice] = useState(false)
     const [openTransfer,setOpenTransfer] = useState(false)
-    const Attributes = [
-        {
-            name:"智力值"
-        },
-        {
-            name:"魅力值"
-        },
-        {
-            name:"健康值"
-        },
-        {
-            name:"幸运值"
-        },
-
-    ]
     const minted = [
         {
             type:"Uncommon",
@@ -97,7 +82,7 @@ const Detail = () =>{
     const sell = async ()=>{
         setOpenload(true)
         const price =  (document.getElementById("price") as HTMLInputElement).value
-        await  axios.post("https://api.burylove.org/near/user/sell/pet_store",{
+        await  axios.post("https://api.burylove.org/api/ near/user/sell/pet_store",{
             near_pet_index:info.near_pet_index,
             near_pet_price:price,
         }).then(async function(response){
@@ -113,7 +98,7 @@ const Detail = () =>{
         if (router.isReady){
             const near_pet_index = router.query.slug[0]
             const fetchUserBounty = async (near_pet_index) => {
-                const data = await axios.get(`https://api.burylove.org/near/user/pet/details?near_pet_index=${near_pet_index}`)
+                const data = await axios.get(`https://api.burylove.org/api/ near/user/pet/details?near_pet_index=${near_pet_index}`)
                 console.log(data.data)
                 const info = data.data
                 const content={

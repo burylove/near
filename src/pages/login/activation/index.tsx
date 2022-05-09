@@ -10,7 +10,7 @@ const Activation = () =>{
 
     const send =async () =>{
         const code = (document.getElementById("activation") as HTMLInputElement).value
-       const data = await axios.post("https://api.burylove.org/near/generate/near_seedPhrase",{
+       const data = await axios.post("https://api.burylove.org/api/ near/generate/near_seedPhrase",{
             key:code
         })
         console.log(data)

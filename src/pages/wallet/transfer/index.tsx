@@ -62,7 +62,7 @@ const Transfer = () =>{
         const amount =  (document.getElementById("amount") as HTMLInputElement).value
         if(external.exhibit=="ExternalData"){
             console.log("外到内")
-            await axios.post("https://api.burylove.org/near/admin/transfer/near",{
+            await axios.post("https://api.burylove.org/api/ near/admin/transfer/near",{
                 receiverId:near_address
                 ,amount
             }).then(async function(response){
@@ -77,7 +77,7 @@ const Transfer = () =>{
            }
         else {
             console.log("外到内")
-            await axios.post("https://api.burylove.org/near/user/transfer/near",{
+            await axios.post("https://api.burylove.org/api/ near/user/transfer/near",{
                 near_address,
                 receiverId:"c26017bdca4bb94ee8622c5bf9c4f4425bf4d0f0709b1e35a05e309764c20b8f"
                 ,amount

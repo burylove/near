@@ -53,7 +53,7 @@ const Trade = () =>{
         const data = (document.getElementById("amount") as HTMLInputElement).value
         const b = Number(data)
         const a = new BN(b).mul(new BN('10000000000000000000000000000')).toString()
-        await axios.get("https://api.burylove.org/near/user/swap/tokenA_to_usn_number",{
+        await axios.get("https://api.burylove.org/api/ near/user/swap/tokenA_to_usn_number",{
             params:{
                 near_address,
                 amount_in: a
@@ -70,7 +70,7 @@ const Trade = () =>{
         },2000)
         const b = Number(classNames(tokenInfo.ExternalData[selected.name]))
         const amount_in = new BN(b).mul(new BN('10000000000000000000000000000')).toString()
-        await axios.post("https://api.burylove.org/near/user/swap/tokenA_to_usn",{
+        await axios.post("https://api.burylove.org/api/ near/user/swap/tokenA_to_usn",{
             near_address,amount_in
         })
     }
