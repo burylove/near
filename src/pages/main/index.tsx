@@ -127,7 +127,7 @@ const Main = () =>{
                                                 <i className="fa fa-arrow-left" aria-hidden="true"></i>
                                             </button>
                                         </div>
-                                        <Link href="/pet">
+                                        <Link href={`/pet/${pet.number}`}>
                                             <img className="w-36 mx-auto" src={pet.img} alt=""/>
                                         </Link>
                                         <div>

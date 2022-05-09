@@ -1,7 +1,7 @@
 import React, {Fragment, useState} from 'react'
 import Link from "next/link";
 import {CheckIcon, SelectorIcon} from '@heroicons/react/solid';
-import {Listbox, Transition } from '@headlessui/react';
+import {Dialog, Listbox, Transition} from '@headlessui/react';
 import {useAtom} from "jotai";
 import {GMTToken, GSTToken, LoadingState, NearAccount, NEARToken} from "../../../jotai";
 import {Constant} from "../../../constant";
@@ -49,11 +49,13 @@ const Transfer = () =>{
     const [internal,setInternal] = useState(Internal)
     const [external,setExternal] = useState(External)
     const [near_address,setNear_hex_account] =useAtom(NearAccount)
+    const [openTransfer,setOpenTransfer] = useState(false)
+    const [amount,setAmout] = useState("")
     const exchange = ()=>{
         setInternal(external)
         setExternal(internal)}
     const all = ()=>{
-        (document.getElementById("amount") as HTMLInputElement).value =  classNames(tokenInfo[external.exhibit][selected.name])
+        (document.getElementById("amount") as HTMLInputElement).value =  classNames(tokenInfo[internal.exhibit][selected.name])
     }
     const transfer = async () =>{
         setOpenload(true)
@@ -88,6 +90,10 @@ const Transfer = () =>{
                 alert("请重试")
             })
         }
+    }
+    const openTransfers = ()=>{
+        setOpenTransfer(true)
+        setAmout((document.getElementById("amount") as HTMLInputElement).value)
     }
     return (
         <div className="relative">
@@ -221,13 +227,115 @@ const Transfer = () =>{
                             </div>
                         </div>
                         <div className="flex justify-center ">
-                            <button  onClick={transfer} className="w-10/12 flex mt-10  justify-center rounded-full border border-transparent shadow-sm px-4 py-2 bg-blue-300 text-base font-medium text-white ">
+                            <button  onClick={openTransfers} className="w-10/12 flex mt-10  justify-center rounded-full border border-transparent shadow-sm px-4 py-2 bg-blue-300 text-base font-medium text-white ">
                                 CONFIRM TRANSFER
                             </button>
                         </div>
                     </>
                 </div>
             </div>
+            <Transition.Root show={openTransfer} as={Fragment}>
+                <Dialog as="div" className="fixed z-20 inset-0 overflow-y-auto "  onClose={setOpenTransfer}>
+                    <div className="flex items-center justify-center min-h-screen     text-center ">
+                        <Transition.Child
+                            as={Fragment}
+                            enter="ease-out duration-300"
+                            enterFrom="opacity-0"
+                            enterTo="opacity-100"
+                            leave="ease-in duration-200"
+                            leaveFrom="opacity-100"
+                            leaveTo="opacity-0"
+                        >
+                            <Dialog.Overlay className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+                        </Transition.Child>
+
+                        {/* This element is to trick the browser into centering the modal contents. */}
+                        <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;
+          </span>
+                        <Transition.Child
+                            as={Fragment}
+                            enter="ease-out duration-300"
+                            enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                            enterTo="opacity-100 translate-y-0 sm:scale-100"
+                            leave="ease-in duration-200"
+                            leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                            leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                        >
+                            <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6">
+                                <div>
+                                    <div className="flex justify-end text-xl w-72"><button onClick={()=>{setOpenTransfer(false)}} >
+                                        <i className="fa fa-times" aria-hidden="true"></i>
+                                    </button></div>
+                                    <div className=" text-center ">
+                                        <div className="font-semibold">
+                                           CONFIRM TRANSFER
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="mt-5 ">
+
+                                    <div className="border border-gray-500 rounded-xl mt-6 text-gray-400 text-xs px-4 py-4">
+
+                                        <div className="flex justify-between mb-5">
+                                            <div>
+                                                From
+                                            </div>
+                                            <div>
+                                                To
+                                            </div>
+                                        </div>
+
+                                        <div className="flex justify-between text-black font-semibold">
+                                            <div>
+                                                {internal.name}
+                                            </div>
+                                            <div>
+                                                {external.name}
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div className="mt-4 mx-1">
+                                        <div className="flex text-xs justify-between">
+                                            <div className="text-gray-400">
+                                                Fee
+                                            </div>
+                                            <div className="font-semibold">
+                                                0.1 GST
+                                            </div>
+                                        </div>
+                                        <div className="flex text-xs justify-between">
+                                            <div className="text-gray-400">
+                                                You will transfer
+                                            </div>
+                                            <div className="font-semibold">
+                                                {amount}   {selected.name}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex justify-between">
+                                        <button
+                                            onClick={()=>{setOpenTransfer(false)}}
+                                            type="button"
+                                            className="w-36 flex mt-5 mr-2  justify-center rounded-full border border-gray-500 border-b-4 border-r-4 shadow-sm px-4 py-2  text-base font-medium text-black  "
+                                        >
+                                            CANCEL
+                                        </button>
+                                        <button
+                                            onClick={transfer}
+                                            type="button"
+                                            className="w-36 flex mt-5  justify-center rounded-full border border-gray-600 border-b-4 border-r-4  shadow-sm px-4 py-2 bg-blue-300 text-base font-medium text-white "
+                                        >
+                                            CONFIRM
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </Transition.Child>
+                    </div>
+                </Dialog>
+            </Transition.Root>
             <Loading/>
         </div>
     )

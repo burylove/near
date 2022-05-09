@@ -25,7 +25,7 @@ const Pet = () =>{
             console.log(near_address)
             const data= await axios.get("http://127.0.0.1:7001/api/near/user/pet/all",{
                 params:{
-                    near_address:'zombies.testnet'
+                    near_address
                 }}
             )
             setPet(data.data)
@@ -38,9 +38,9 @@ const Pet = () =>{
 
     return(
         <>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-2 gap-3 ">
                 {pet.map((item=>(
-                    <Link href="/pet" key={item.near_pet_index} >
+                    <Link href={`/pet/${item.near_pet_index}`}  key={item.near_pet_index} >
                     <a className=" rounded-2xl  text-center border border-gray-500 border-2 border-b-4 border-r-4">
                         <div className=" px-4  border-gray-500">
                             <div className="flex justify-center items-center">
@@ -58,7 +58,6 @@ const Pet = () =>{
                                 </div>
                             </div>
                         </div>
-
                         <div>
                             <div className="flex justify-between p-2 px-3 items-center rounded-b-xl bg-gray-200">
                                 <div className="flex  text-sm mr-2">
@@ -93,12 +92,8 @@ const Pet = () =>{
                                         {item.near_pet_lucky_value}
                                     </div>
                                 </div>
-
-
                           </div>
-
                         </div>
-
                     </a>
                     </Link>
                 )))}
@@ -116,7 +111,7 @@ const Eggs = () =>{
             console.log(near_address)
             const data= await axios.get("http://127.0.0.1:7001/api/near/user/pet_eggs/all",{
                 params:{
-                    near_address:'zombies.testnet'
+                    near_address
                 }}
             )
             setPet(data.data)
@@ -126,7 +121,7 @@ const Eggs = () =>{
     },[])
     const open = async (e) =>{
         await axios.post("http://127.0.0.1:7001/api/near/user/open/pet_eggs",{
-            near_address:"zombies.testnet",
+            near_address,
             near_pet_eggs_index:e
         })
         await location.reload()
@@ -174,7 +169,7 @@ const Bag = () =>{
             <div className="absolute inset-x-0 bottom-0    " />
             <div className=" mx-auto  ">
                 <Header/>
-                <div className="max-w-7xl relative px-4 pt-20 py-10    mx-auto ">
+                <div className="max-w-7xl relative px-4 pt-14 py-10    mx-auto ">
                     <div className="">
                         <Tab.Group>
                             <Tab.List className=" p-1  bg-blue-900/20 rounded-xl mx-auto       ">
@@ -191,7 +186,7 @@ const Bag = () =>{
                                     ))}
                                 </div>
                             </Tab.List>
-                            <Tab.Panels className="mt-5 ">
+                            <Tab.Panels className="my-5">
                                 <Tab.Panel className={classNames(
                                         '')}>
                                     <Pet/>

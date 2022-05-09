@@ -13,11 +13,10 @@ const Mint = () =>{
             <div className="absolute inset-x-0 bottom-0    " />
             <div className=" mx-auto  ">
                 <div className="fixed z-20 inset-x-0 flex justify-between">
-                    <Link href="/pet">
-                        <div className=" text-2xl text-gray-600 px-5">
+                        <div onClick={()=>{window.history.go(-1)}
+                        } className=" text-2xl text-gray-600 px-5">
                             <i className="fa fa-reply" aria-hidden="true"></i>
                         </div>
-                    </Link>
                     <div className="text-xl font-semibold">
                        SHOE MINT
                     </div>
