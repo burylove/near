@@ -25,7 +25,7 @@ const ToExternal = () =>{
             setTokenName(name)
             const fetchUserBounty = async () => {
                 console.log(near_address)
-                const data= await axios.get("http://127.0.0.1:7001/api/near/query/near_account_balance",{
+                const data= await axios.get("https://api.burylove.org/near/query/near_account_balance",{
                     params:{
                         near_address
                     }
@@ -46,7 +46,7 @@ const ToExternal = () =>{
         setOpenload(true)
         const receiverId =  (document.getElementById("address") as HTMLInputElement).value
         const amount =  (document.getElementById("amount") as HTMLInputElement).value
-        await axios.post("http://127.0.0.1:7001/api/near/user/transfer/near",{
+        await axios.post("https://api.burylove.org/near/user/transfer/near",{
             near_address,receiverId,amount
         }).then(async function(response){
             setOpenload(false)

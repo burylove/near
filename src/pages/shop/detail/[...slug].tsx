@@ -80,7 +80,7 @@ const Detail = () =>{
         if (router.isReady){
             const near_pet_index = router.query.slug[0]
             const fetchUserBounty = async (near_pet_index) => {
-                const data = await axios.get(`http://127.0.0.1:7001/api/near/query/pet?near_pet_index=${near_pet_index}`)
+                const data = await axios.get(`https://api.burylove.org/near/query/pet?near_pet_index=${near_pet_index}`)
                 console.log(data.data)
                const info = data.data
                 const content={
@@ -119,7 +119,7 @@ const Detail = () =>{
         }
     },[router.isReady])
     const confirm =async ()=>{
-        await axios.post("http://127.0.0.1:7001/api/near/user/buy/pet_store",{
+        await axios.post("https://api.burylove.org/near/user/buy/pet_store",{
             near_address:near_address,
             near_pet_index:info.near_pet_index,
             near_pet_price:info.near_pet_price,

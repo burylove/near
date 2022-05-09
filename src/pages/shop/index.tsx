@@ -23,7 +23,7 @@ const Pet = () =>{
     const [pet,setPet]= useState([])
     useEffect(()=>{
         const fetchUserBounty = async () => {
-            const data= await axios.get("http://127.0.0.1:7001/api/near/store/desc/all_pet", {
+            const data= await axios.get("https://api.burylove.org/near/store/desc/all_pet", {
 
             })
             setPet(data.data)
@@ -31,7 +31,7 @@ const Pet = () =>{
         fetchUserBounty()
     },[])
     const  toggle =async (type)=>{
-      const  data= await axios.get(`http://127.0.0.1:7001/api/near/store/${type}/all_pet`, {
+      const  data= await axios.get(`https://api.burylove.org/near/store/${type}/all_pet`, {
 
         })
         setPet(data.data)
@@ -131,7 +131,7 @@ const Eggs = () =>{
 
     useEffect(()=>{
         const fetchUserBounty = async () => {
-            const data= await axios.get("http://127.0.0.1:7001/api/near/store/desc/all_pet_eggs", {
+            const data= await axios.get("https://api.burylove.org/near/store/desc/all_pet_eggs", {
 
             })
             setPet(data.data)
@@ -139,7 +139,7 @@ const Eggs = () =>{
         fetchUserBounty()
     },[])
     const  toggle =async (type)=>{
-        const  data= await axios.get(`http://127.0.0.1:7001/api/near/store/${type}/all_pet_eggs`, {
+        const  data= await axios.get(`https://api.burylove.org/near/store/${type}/all_pet_eggs`, {
         })
         setPet(data.data)
         console.log(data.data)

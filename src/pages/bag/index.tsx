@@ -23,7 +23,7 @@ const Pet = () =>{
     useEffect(()=>{
         const fetchUserBounty = async () => {
             console.log(near_address)
-            const data= await axios.get("http://127.0.0.1:7001/api/near/user/pet/all",{
+            const data= await axios.get("https://api.burylove.org/near/user/pet/all",{
                 params:{
                     near_address
                 }}
@@ -109,7 +109,7 @@ const Eggs = () =>{
     useEffect(()=>{
         const fetchUserBounty = async () => {
             console.log(near_address)
-            const data= await axios.get("http://127.0.0.1:7001/api/near/user/pet_eggs/all",{
+            const data= await axios.get("https://api.burylove.org/near/user/pet_eggs/all",{
                 params:{
                     near_address
                 }}
@@ -120,7 +120,7 @@ const Eggs = () =>{
         fetchUserBounty()
     },[])
     const open = async (e) =>{
-        await axios.post("http://127.0.0.1:7001/api/near/user/open/pet_eggs",{
+        await axios.post("https://api.burylove.org/near/user/open/pet_eggs",{
             near_address,
             near_pet_eggs_index:e
         })

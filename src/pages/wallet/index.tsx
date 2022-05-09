@@ -19,7 +19,7 @@ const InternalInfo = () =>{
     useEffect(() =>{
         const fetchUserBounty = async () => {
             console.log(near_address)
-            const data= await axios.get("http://127.0.0.1:7001/api/near/query/near_internal_account_balance",{
+            const data= await axios.get("https://api.burylove.org/near/query/near_internal_account_balance",{
                 params:{
                     near_address
                 }

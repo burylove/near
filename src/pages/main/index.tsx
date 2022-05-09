@@ -44,7 +44,7 @@ const Main = () =>{
     //     if (router.isReady){
     //         const fetchUserBounty = async () => {
     //             // console.log(near_address)
-    //             const data= await axios.get("http://127.0.0.1:7001/api/near/user/pet/all",{
+    //             const data= await axios.get("https://api.burylove.org/near/user/pet/all",{
     //                 params:{
     //                     near_address:'zombies.testnet'
     //                 }})

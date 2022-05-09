@@ -56,14 +56,14 @@ const ExternalInfo = () =>{
     useEffect(()=>{
         const fetchUserBounty = async () => {
             console.log(near_address)
-            const data= await axios.get("http://127.0.0.1:7001/api/near/query/near_account_balance",{
+            const data= await axios.get("https://api.burylove.org/near/query/near_account_balance",{
                 params:{
                     near_address
                 }
             })
             const near_balance = Number(formatDecimal(data.data,8))
             setExternalNEARtoken(near_balance)
-            const USN = await axios.get("http://127.0.0.1:7001/api/near/query/near_account_usn_balance",
+            const USN = await axios.get("https://api.burylove.org/near/query/near_account_usn_balance",
                 {
                     params:{
                         near_address
@@ -71,7 +71,7 @@ const ExternalInfo = () =>{
                 })
             const USN_balance =Number(formatDecimal(USN.data/1000000000000000000,8))
                 setExternalUSNtoken(USN_balance)
-            const GST = await  axios.get("http://127.0.0.1:7001/api/near/query/near_account_tokenA_balance",{
+            const GST = await  axios.get("https://api.burylove.org/near/query/near_account_tokenA_balance",{
                 params:{
                     near_address
                 }
