@@ -23,7 +23,7 @@ const Pet = () =>{
     useEffect(()=>{
         const fetchUserBounty = async () => {
             console.log(near_address)
-            const data= await axios.get("https://api.burylove.org/api/near/user/pet/all",{
+            const data= await axios.get("http://127.0.0.1:7001/api/near/user/pet/all",{
                 params:{
                     near_address
                 }}
@@ -31,7 +31,6 @@ const Pet = () =>{
             setPet(data.data)
             console.log(data)
         }
-
         fetchUserBounty()
     },[])
 
@@ -42,7 +41,7 @@ const Pet = () =>{
                 {pet.map((item=>(
                     <Link href={`/pet/${item.near_pet_index}`}  key={item.near_pet_index} >
                     <a className=" rounded-2xl  text-center border border-gray-500 border-2 border-b-4 border-r-4">
-                        <div className=" px-4  border-gray-500">
+                        <div className=" px-4  pb-2 border-gray-500">
                             <div className="flex justify-center items-center">
                             <div className={classNames(PetStyle[item.near_pet_type],'rounded-b-xl w-5/6 ')}>
                                 #{item.near_pet_index}
@@ -51,16 +50,20 @@ const Pet = () =>{
                             <img className="mx-auto  py-3" src={item.near_pet_image_url} alt=""/>
                             <div className="flex justify-between text-sm px-4 font-semibold pb-2">
                                 <div>
-                                    Mint:{item.near_pet_birth_times}
+                                    Mint:{item.near_pet_mint_number}
                                 </div>
                                 <div>
                                     Lv {item.near_pet_level}
                                 </div>
                             </div>
+                                <div className="w-full bg-gray-200 h-3 md:saturate-0  rounded-full">
+                                    <div className="bg-green-400 h-3 rounded-full"
+                                         style={{width: `${item.near_pet_hunger_value}%`}}></div>
+                                </div>
                         </div>
                         <div>
-                            <div className="flex justify-between p-2 px-3 items-center rounded-b-xl bg-gray-200">
-                                <div className="flex  text-sm mr-2">
+                            <div className="flex justify-between p-2  text-xs items-center rounded-b-xl bg-gray-200">
+                                <div className="flex">
                                     <div>
                                         <i className="fa fa-arrow-circle-o-down text-indigo-400" aria-hidden="true"></i>
                                     </div>
@@ -68,7 +71,7 @@ const Pet = () =>{
                                         {item.near_pet_health_value}
                                     </div>
                                 </div>
-                                <div className="flex  text-sm mr-2">
+                                <div className="flex">
                                     <div>
                                         <i className="fa fa-arrow-circle-o-left text-yellow-300" aria-hidden="true"></i>
                                     </div>
@@ -76,7 +79,7 @@ const Pet = () =>{
                                         {item.near_pet_intelligence_value}
                                     </div>
                                 </div>
-                                <div className="flex  text-sm mr-2">
+                                <div className="flex">
                                     <div>
                                         <i className="fa fa-arrow-circle-o-right text-blue-400" aria-hidden="true"></i>
                                     </div>
@@ -84,7 +87,7 @@ const Pet = () =>{
                                         {item.near_pet_charisma_value}
                                     </div>
                                 </div>
-                                <div className="flex  text-sm mr-2">
+                                <div className="flex">
                                     <div>
                                         <i className="fa fa-arrow-circle-o-up text-green-400" aria-hidden="true"></i>
                                     </div>
@@ -109,7 +112,7 @@ const Eggs = () =>{
     useEffect(()=>{
         const fetchUserBounty = async () => {
             console.log(near_address)
-            const data= await axios.get("https://api.burylove.org/api/near/user/pet_eggs/all",{
+            const data= await axios.get("http://127.0.0.1:7001/api/near/user/pet_eggs/all",{
                 params:{
                     near_address
                 }}
@@ -120,7 +123,7 @@ const Eggs = () =>{
         fetchUserBounty()
     },[])
     const open = async (e) =>{
-        await axios.post("https://api.burylove.org/api/near/user/open/pet_eggs",{
+        await axios.post("http://127.0.0.1:7001/api/near/user/open/pet_eggs",{
             near_address,
             near_pet_eggs_index:e
         })
@@ -130,11 +133,12 @@ const Eggs = () =>{
         <>
             <div className="grid grid-cols-2 gap-3">
                 {pet.map((item=>(
-                    <div key={item.near_pet_eggs_index} className=" rounded-2xl  text-center border border-gray-500 border-2 border-b-4 border-r-4">
+                    <Link href={`/egg/${item.near_pet_eggs_index}`} key={item.near_pet_eggs_index}>
+                    <div  className=" rounded-2xl  text-center border border-gray-500 border-2 border-b-4 border-r-4">
                         <div className=" px-4  border-gray-500">
                             <div className="flex justify-center items-center">
-                                <div className={classNames(PetStyle[item.near_pet_eggs_type],'rounded-b-xl w-5/6 ')}>
-                                    #{item.near_pet_eggs_index}
+                                <div className={classNames(PetStyle[item.near_pet_eggs_type],'rounded-b-xl  text-sm px-3 pb-1')}>
+                                    {item.near_pet_eggs_type} eggs
                                 </div>
                             </div>
                             <img className="mx-auto py-1  rounded-full w-24" src={item.near_pet_eggs_image_url} alt=""/>
@@ -142,15 +146,14 @@ const Eggs = () =>{
 
                         <div>
                             <div className=" p-2 px-3 items-center rounded-b-xl bg-gray-200">
-                                <button onClick={()=>{open(item.near_pet_eggs_index)}} className="px-2 py-0.5  border border-gray-500 border border-r-2 border-b-2 rounded-full text-sm ">
-                                    OPEN
-                                </button>
-
+                                <div className={classNames(PetStyle[item.near_pet_eggs_type],'rounded-xl  ')}>
+                                    #{item.near_pet_eggs_index}
+                                </div>
                             </div>
 
                         </div>
-
                     </div>
+                    </Link>
                 )))}
             </div>
         </>

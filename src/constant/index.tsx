@@ -39,4 +39,12 @@ const PetStyle=
         Epic:"bg-indigo-400 text-white",
         Legendary:"bg-yellow-400 text-black" ,
     }
-export {Constant,PetStyle}
+    const PetTextStyle=
+        {
+            Common:"text-black",
+            Uncommon:"text-green-600 ",
+            Rare:"text-blue-400" ,
+            Epic:"text-indigo-400",
+            Legendary:"text-yellow-400",
+        }
+export {Constant,PetStyle,PetTextStyle}

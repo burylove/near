@@ -56,14 +56,14 @@ const ExternalInfo = () =>{
     useEffect(()=>{
         const fetchUserBounty = async () => {
             console.log(near_address)
-            const data= await axios.get("https://api.burylove.org/api/near/query/near_account_balance",{
+            const data= await axios.get("http://127.0.0.1:7001/api/near/query/near_account_balance",{
                 params:{
                     near_address
                 }
             })
             const near_balance = Number(formatDecimal(data.data,8))
             setExternalNEARtoken(near_balance)
-            const USN = await axios.get("https://api.burylove.org/api/near/query/near_account_usn_balance",
+            const USN = await axios.get("http://127.0.0.1:7001/api/near/query/near_account_usn_balance",
                 {
                     params:{
                         near_address
@@ -71,7 +71,7 @@ const ExternalInfo = () =>{
                 })
             const USN_balance =Number(formatDecimal(USN.data/1000000000000000000,8))
                 setExternalUSNtoken(USN_balance)
-            const GST = await  axios.get("https://api.burylove.org/api/near/query/near_account_tokenA_balance",{
+            const GST = await  axios.get("http://127.0.0.1:7001/api/near/query/near_account_tokenA_balance",{
                 params:{
                     near_address
                 }
@@ -81,7 +81,7 @@ const ExternalInfo = () =>{
         }
         fetchUserBounty()
         const first = near_address.slice(0,6);
-        const last = near_address.slice(-5,-1)
+        const last =  near_address.slice(-5,-1)
         setAddress(first+"..."+last)
 
     },[])
@@ -191,18 +191,18 @@ const ExternalInfo = () =>{
 
                             <div className="flex justify-between mt-10 px-2 items-center">
                                 <button onClick={()=>{setOpenReceive(true)}}>
-                                <div className="text-green-500 flex items-center  text-2xl px-4 py-3.5 border-gray-500   border-2 rounded-full">
-                                    <i className="fa fa-download" aria-hidden="true"></i>
-                                </div>
-                                    <div className="text-xs text-center mt-1">
+                                    <div className=" flex w-14 items-center p-1 text-2xl  border-gray-500 border-2 rounded-full">
+                                    <img className="w-24" src="https://cdn.discordapp.com/attachments/876498266550853642/978935657693077525/Receive.png" alt=""/>
+                                   </div>
+                                    <div className="text-xs text-center ">
                                         Receive
                                     </div>
                                 </button>
                                 <Link href="/wallet/ex-transfer">
                                     <a>
-                                    <div className="text-green-500 flex w-14 items-center  text-2xl px-4 py-3.5  border-gray-500 border-2 rounded-full">
-                                        <i className="fa fa-refresh" aria-hidden="true"></i>
-                                    </div>
+                                        <div className=" flex w-14 items-center p-1 text-2xl  border-gray-500 border-2 rounded-full">
+                                            <img className="w-24" src="https://cdn.discordapp.com/attachments/876498266550853642/978935657147826186/Inside.png" alt=""/>
+                                        </div>
                                     <div className="text-xs text-center mt-1">
                                         Inside
                                     </div>
@@ -210,8 +210,8 @@ const ExternalInfo = () =>{
                                 </Link>
 
                                 <button onClick={()=>{setOpenExternal(true)}}>
-                                    <div className="text-green-500 flex items-center  text-2xl px-3.5 py-3.5  border-gray-500 border-2 rounded-full">
-                                        <i className="fa fa-external-link" aria-hidden="true"></i>
+                                    <div className=" flex w-14 items-center p-1 text-2xl  border-gray-500 border-2 rounded-full">
+                                        <img className="w-24" src="https://cdn.discordapp.com/attachments/876498266550853642/978935656870969384/External.png" alt=""/>
                                     </div>
                                     <div className="text-xs text-center mt-1">
                                        External
@@ -219,9 +219,9 @@ const ExternalInfo = () =>{
                                 </button>
                                 <Link href="/wallet/trade">
                                     <a>
-                                    <div className="text-green-500 flex items-center  text-2xl px-3.5 py-3.5  border-gray-500 border-2 rounded-full">
-                                        <i className="fa fa-recycle" aria-hidden="true"></i>
-                                    </div>
+                                        <div className="-500 flex w-14 items-center p-1 text-2xl  border-gray-500 border-2 rounded-full">
+                                            <img className="w-24" src="https://cdn.discordapp.com/attachments/876498266550853642/978935657944715304/Trade.png" alt=""/>
+                                        </div>
                                     <div className="text-xs text-center mt-1">
                                         Trade
                                     </div>
@@ -231,7 +231,6 @@ const ExternalInfo = () =>{
 
                             <div className="mt-8 text-xl font-semibold flex items-center">
                                 Wallet Account
-
                                 <div className="ml-5 text-2xl text-gray-500">
                                     <button>
                                         <i className="fa fa-question-circle-o" aria-hidden="true"></i>
@@ -296,7 +295,39 @@ const ExternalInfo = () =>{
                                     </div>
                                 </div>
                             </div>
+                            <div className="mt-5 border-2 border-gray-500 rounded-xl  border-r-4 border-b-4">
+                                <Link href="/wallet/external/pets">
+                                <div className="flex justify-between px-4 py-2 items-center ">
+                                    <div className="flex items-center">
+                                        <div>
+                                            <img className="rounded-full w-10"
+                                                 src="https://cdn.discordapp.com/attachments/876498266550853642/978935657407860756/Pets.png" alt=""/>
+                                        </div>
+                                        <div className="ml-2 font-semibold">
+                                            Pets
+                                        </div>
+                                    </div>
+                                    <div className="text-left">
+                                       0
+                                    </div>
+                                </div>
+                                </Link>
+                                <div className="flex justify-between px-4 py-2 border-t border-b border-gray-500 items-center ">
+                                    <div className="flex items-center">
+                                        <div>
+                                            <img className="rounded-full w-10"
+                                                 src="https://cdn.discordapp.com/attachments/876498266550853642/978935656623517737/Eggs.png" alt=""/>
+                                        </div>
+                                        <div className="ml-2 font-semibold">
+                                            Eggs
+                                        </div>
+                                    </div>
+                                    <div className="text-left">
+                                        0
+                                    </div>
+                                </div>
 
+                            </div>
 
                         </div>
 
@@ -352,7 +383,7 @@ const ExternalInfo = () =>{
                                         </div>
                                         <div className="flex justify-center">
                                             <button
-                                                onClick={() => {Copy('address') }}
+                                                onClick={() => {Copy('address')}}
                                                 type="button"
                                                 className="w-full flex mt-5  justify-center rounded-full border border-transparent shadow-sm px-4 py-2 bg-blue-300 text-base font-medium text-white "
                                             >

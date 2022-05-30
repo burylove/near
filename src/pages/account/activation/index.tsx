@@ -38,11 +38,11 @@ const Activation = () =>{
             <div className=" mx-auto  ">
 
                 <div className="fixed z-20 inset-x-0 flex justify-between">
-                <Link href="/main">
+                    <button onClick={()=>{window.history.back()}}>
                     <div className=" text-2xl text-gray-600 px-5">
                         <i className="fa fa-reply" aria-hidden="true"></i>
                     </div>
-                </Link>
+                </button>
                     <div className="text-xl font-semibold">
                         Activation Code
                     </div>

@@ -48,7 +48,6 @@ const Detail = () =>{
     const content={
         id:"",
         near_address:"",
-        near_pet_birth_times:"",
         near_pet_charisma_value:"",
         near_pet_health_value:"",
         near_pet_hunger_value:"",
@@ -59,9 +58,8 @@ const Detail = () =>{
         near_pet_lucky_value:"",
         near_pet_name:"",
         near_pet_price:"",
-        near_pet_stamina_value:"",
-        near_pet_type:"",
         near_pet_mint_number:"",
+        near_pet_type:"",
         near_pet_child_1:"",
         near_pet_child_2:"",
         near_pet_child_3:"",
@@ -80,13 +78,13 @@ const Detail = () =>{
         if (router.isReady){
             const near_pet_index = router.query.slug[0]
             const fetchUserBounty = async (near_pet_index) => {
-                const data = await axios.get(`https://api.burylove.org/api/near/query/pet?near_pet_index=${near_pet_index}`)
+                const data = await axios.get(`http://127.0.0.1:7001/api/near/query/pet?near_pet_index=${near_pet_index}`)
                 console.log(data.data)
                const info = data.data
                 const content={
                     id:info.id,
                     near_address:info.near_address,
-                    near_pet_birth_times:info.near_pet_birth_times,
+                    near_pet_mint_number:info.near_pet_mint_number,
                     near_pet_charisma_value:info.near_pet_charisma_value,
                     near_pet_health_value:info.near_pet_health_value,
                     near_pet_hunger_value:info.near_pet_hunger_value,
@@ -97,9 +95,7 @@ const Detail = () =>{
                     near_pet_lucky_value:info.near_pet_lucky_value,
                     near_pet_name:info.near_pet_name,
                     near_pet_price:info.near_pet_price,
-                    near_pet_stamina_value:info.near_pet_stamina_value,
                     near_pet_type:info.near_pet_type,
-                    near_pet_mint_number:info.near_pet_mint_number,
                     near_pet_child_1:info.near_pet_child_1,
                     near_pet_child_2:info.near_pet_child_2,
                     near_pet_child_3:info.near_pet_child_3,
@@ -119,7 +115,7 @@ const Detail = () =>{
         }
     },[router.isReady])
     const confirm =async ()=>{
-        await axios.post("https://api.burylove.org/api/near/user/buy/pet_store",{
+        await axios.post("http://127.0.0.1:7001/api/near/user/buy/pet_store",{
             near_address:near_address,
             near_pet_index:info.near_pet_index,
             near_pet_price:info.near_pet_price,
@@ -139,16 +135,16 @@ const Detail = () =>{
                 <div className="absolute inset-x-0 bottom-0    " />
                 <div className=" mx-auto  ">
                     <div className="fixed z-20 inset-x-0 flex justify-between px-5 mx-auto ">
-                        <Link href="/main">
+                        <button onClick={()=>{window.history.back()}}>
                             <div className="text-2xl text-gray-600 ">
                                 <i className="fa fa-reply" aria-hidden="true"></i>
                             </div>
-                        </Link>
+                        </button>
                         <Wallet/>
                     </div>
                     <div className="absolute inset-0">
                         <img
-                            className=""
+                            className="h-screen"
                             src="https://cdn.discordapp.com/attachments/876498266550853642/969529054967529522/5.png"
                             alt=""
                         />
@@ -166,7 +162,7 @@ const Detail = () =>{
                                     #{info.near_pet_index}
                                 </div>
                                 <div className="w-24 bg-gray-200 h-6 rounded-r-full items-center">
-                                    <div className="bg-green-500 h-6 rounded-r-full" style={{width:`${info.near_pet_hunger_value}%`}}></div>
+                                    <div className="bg-green-400 h-6 rounded-r-full" style={{width:`${info.near_pet_hunger_value}%`}}></div>
                                     <div className="-mt-5 mb-0.5  flex justify-center text-xs">
                                         {info.near_pet_hunger_value}/100
                                     </div>
@@ -184,7 +180,7 @@ const Detail = () =>{
                                                 智力值
                                             </div>
                                             <div className="w-full bg-gray-200 h-4 rounded-r-full">
-                                                <div className="bg-green-500 h-4 rounded-r-full" style={{width:`${info.near_pet_intelligence_value}%`}}></div>
+                                                <div className="bg-green-400 h-4 rounded-r-full" style={{width:`${info.near_pet_intelligence_value}%`}}></div>
                                             </div>
                                             <div className="pl-4 w-14 flex justify-center text-sm">
                                                 {info.near_pet_intelligence_value}
@@ -198,7 +194,7 @@ const Detail = () =>{
                                                 魅力值
                                             </div>
                                             <div className="w-full bg-gray-200 h-4 rounded-r-full">
-                                                <div className="bg-green-500 h-4 rounded-r-full" style={{width:`${info.near_pet_charisma_value}%`}}></div>
+                                                <div className="bg-green-400 h-4 rounded-r-full" style={{width:`${info.near_pet_charisma_value}%`}}></div>
                                             </div>
                                             <div className="pl-4 w-14 flex justify-center text-sm">
                                                 {info.near_pet_charisma_value}
@@ -212,7 +208,7 @@ const Detail = () =>{
                                                 健康值
                                             </div>
                                             <div className="w-full bg-gray-200 h-4 rounded-r-full">
-                                                <div className="bg-green-500 h-4 rounded-r-full" style={{width:`${info.near_pet_health_value}%`}}></div>
+                                                <div className="bg-green-400 h-4 rounded-r-full" style={{width:`${info.near_pet_health_value}%`}}></div>
                                             </div>
                                             <div className="pl-4 w-14 flex justify-center text-sm">
                                                 {info.near_pet_health_value}
@@ -226,7 +222,7 @@ const Detail = () =>{
                                                 幸运值
                                             </div>
                                             <div className="w-full bg-gray-200 h-4 rounded-r-full">
-                                                <div className="bg-green-500 h-4 rounded-r-full" style={{width:Number(Number(`${info.near_pet_lucky_value}`)/2)+"%"}}></div>
+                                                <div className="bg-green-400 h-4 rounded-r-full" style={{width:Number(Number(`${info.near_pet_lucky_value}`)/2)+"%"}}></div>
                                             </div>
                                             <div className="pl-4 w-14 flex justify-center text-sm">
                                                 {info.near_pet_lucky_value}
@@ -238,7 +234,7 @@ const Detail = () =>{
                         </div>
 
                     </div>
-                    <div className="px-8 py-32">
+                    <div className="px-8 py-32 ">
                         <div>
                             <div className="text-black text-2xl font-semibold">
                                 Minted form
@@ -366,7 +362,7 @@ const Detail = () =>{
                                             <div className="pl-10">
                                                 Shoe mint
                                                 <div className="text-black font-semibold text-sm">
-                                                    {info.near_pet_mint_number}/7
+                                                    {info.near_pet_mint_number}/10
                                                 </div>
                                             </div>
                                         </div>
@@ -449,7 +445,7 @@ const Detail = () =>{
                                     </div>
                                     <div className="mt-5 ">
                                         <div className="flex justify-center">
-                                            <img className="w-28 " src="/1.png" alt=""/>
+                                            <img className="w-28 " src={info.near_pet_image_url} alt=""/>
                                         </div>
                                         <div className="border border-gray-500 rounded-xl mt-6  bg-gray-100 text-sm px-4 py-4 ">
                                             Don`t worry! Just transfer enough NEAR from
@@ -464,8 +460,6 @@ const Detail = () =>{
                                                 {info.near_pet_price} NEAR
                                             </div>
                                         </div>
-
-
                                         <div className="flex justify-between">
                                             <button
                                                 onClick={()=>{setOpenTransfer(false)}}

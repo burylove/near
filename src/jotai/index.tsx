@@ -23,12 +23,12 @@ const OpenName = atom(false)
 const OpenGender = atom(false)
 
 
-
+const HiddenReciprocal = atomWithStorage("hiddenReciprocal",false)
 const LoadingState  = atom(false)
 
 const PetList = atom ([])
 const pet_info = atom([])
 
 export {GSTToken,GMTToken,NEARToken,PeopleAvatar,PeopleEmail,NearAccount,PeopleName,PublicKey,SecretKey,SeedPhrase,PeopleGender,OpenAvatar,OpenName,OpenGender
-,LoadingState,PetList,pet_info,ExternalNEARToken,ExternalUSNToken,ExternalGSTToken,ExternalGMTToken}
+,LoadingState,PetList,pet_info,ExternalNEARToken,ExternalUSNToken,ExternalGSTToken,ExternalGMTToken,HiddenReciprocal}
 

@@ -23,7 +23,7 @@ const Pet = () =>{
     const [pet,setPet]= useState([])
     useEffect(()=>{
         const fetchUserBounty = async () => {
-            const data= await axios.get("https://api.burylove.org/api/near/store/desc/all_pet", {
+            const data= await axios.get("http://127.0.0.1:7001/api/near/store/desc/all_pet", {
 
             })
             setPet(data.data)
@@ -31,7 +31,7 @@ const Pet = () =>{
         fetchUserBounty()
     },[])
     const  toggle =async (type)=>{
-      const  data= await axios.get(`https://api.burylove.org/api/near/store/${type}/all_pet`, {
+      const  data= await axios.get(`http://127.0.0.1:7001/api/near/store/${type}/all_pet`, {
 
         })
         setPet(data.data)
@@ -91,7 +91,7 @@ const Pet = () =>{
                             <img className="mx-auto  py-3" src={item.near_pet_image_url} alt=""/>
                             <div className="flex justify-between text-sm px-4 font-semibold pb-2">
                                 <div>
-                                    Mint:{item.near_pet_birth_times}
+                                    Mint:{item.near_pet_mint_number}
                                 </div>
                                 <div>
                                     Lv {item.near_pet_level}
@@ -131,7 +131,7 @@ const Eggs = () =>{
 
     useEffect(()=>{
         const fetchUserBounty = async () => {
-            const data= await axios.get("https://api.burylove.org/api/near/store/desc/all_pet_eggs", {
+            const data= await axios.get("http://127.0.0.1:7001/api/near/store/desc/all_pet_eggs", {
 
             })
             setPet(data.data)
@@ -139,7 +139,7 @@ const Eggs = () =>{
         fetchUserBounty()
     },[])
     const  toggle =async (type)=>{
-        const  data= await axios.get(`https://api.burylove.org/api/near/store/${type}/all_pet_eggs`, {
+        const  data= await axios.get(`http://127.0.0.1:7001/api/near/store/${type}/all_pet_eggs`, {
         })
         setPet(data.data)
         console.log(data.data)
@@ -157,7 +157,6 @@ const Eggs = () =>{
                 <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
               </span>
                                 </Listbox.Button>
-
                                 <Transition
                                     show={open}
                                     as={Fragment}
@@ -168,18 +167,12 @@ const Eggs = () =>{
                                     <Listbox.Options className="absolute z-10 mt-1 w-40 bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
                                         {type.map((person) => (
                                             <Listbox.Option
-                                                key={person.id}
-                                                className={({ active }) =>
-                                                    classNames(
-                                                        active ? 'text-white bg-gray-600' : 'text-gray-900',
-                                                        'cursor-default select-none relative py-2 pl-3 pr-9')} value={person}>
+                                                key={person.id} className={({ active }) => classNames(active ? 'text-white bg-gray-600' : 'text-gray-900', 'cursor-default select-none relative py-2 pl-3 pr-9')} value={person}>
+
                                                 {({ selected, active }) => (
-                                                    <>
                         <span onClick={()=>{toggle(person.type)}} className={classNames(selected ? 'font-semibold' : 'font-normal', 'block truncate')}>
                           {person.name}
                         </span>
-
-                                                    </>
                                                 )}
                                             </Listbox.Option>
                                         ))}
@@ -191,8 +184,8 @@ const Eggs = () =>{
                 </Listbox>
             <div className="grid grid-cols-2 gap-3">
                 {pet.map((item=>(
-
-                    <div key={item.near_pet_eggs_index} className=" rounded-2xl  text-center border border-gray-500 border-2 border-b-4 border-r-4">
+                    <Link href={`/shop/egg/${item.near_pet_eggs_index}`} key={item.near_pet_eggs_index} >
+                    <div className=" rounded-2xl  text-center border border-gray-500 border-2 border-b-4 border-r-4">
                         <div className=" px-4  border-gray-500">
                             <div className="flex justify-center items-center">
                                 <div className={classNames(PetStyle[item.near_pet_eggs_type],'rounded-b-xl w-5/6 ')}>
@@ -219,6 +212,7 @@ const Eggs = () =>{
                             </div>
                         </div>
                     </div>
+                    </Link>
                 )))}
             </div>
             </div>

@@ -21,12 +21,12 @@ const Phrase = () =>{
     const verify =async ()=>{
         const word = (document.getElementById("#7") as HTMLInputElement).value
        if ( word == phrase[6]){
-           console.log()
-        const data =  await axios.post("https://api.burylove.org/api/near/generate/near_user",{
+
+        const data =  await axios.post("http://127.0.0.1:7001/api/near/generate/near_user",{
               description,email,publicKey,secretKey
            })
+           console.log(data)
            setNear_hex_account(data.data)
-
            setPublicKey('')
            setSecretKey('')
            setSeedPhrase('')

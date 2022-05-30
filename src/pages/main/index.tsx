@@ -12,49 +12,40 @@ import {useRouter} from "next/router";
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
+
 const Main = () =>{
+    const info_ob = {
+        near_pet_index:'0',
+        near_pet_image_url:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStlKgeLuPzgUoekt4YWQtlyGgqZU6g4vHMCg&usqp=CAU",
+        near_pet_level:""
+    }
     const info = [
         {
-            number:"1",
-            img:"https://cdn.discordapp.com/attachments/876498266550853642/969892589354512394/72fb26297978255e.png",
-            lvl:"5",
-        },
-        {
-            number:"2",
-            img:"https://cdn.discordapp.com/attachments/876498266550853642/969892589669072926/2b589afe10e09b84.png",
-            lvl:"10",
-        },
-        {
-            number:"3",
-            img:"/1.png",
-            lvl:"15",
-        },
-
+            near_pet_index:'0',
+            near_pet_image_url:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStlKgeLuPzgUoekt4YWQtlyGgqZU6g4vHMCg&usqp=CAU",
+            near_pet_level:""
+        }
     ]
     const router = useRouter()
-    // const [Pet,setPetList] = useAtom(PetList)
     const [Pet,setPetList] = useState(info)
     const [learning,setLearning] = useState(false)
     const [clickNmu,SetClickNmu]  = useState(0)
-    const [pet,setPet] = useState(Pet[clickNmu])
-    // const [pet,setPet] = useAtom(pet_info)
+    const [pet,setPet] = useState(info_ob)
     const [near_address,] =useAtom(NearAccount)
-
-    // useEffect(()=>{
-    //     if (router.isReady){
-    //         const fetchUserBounty = async () => {
-    //             // console.log(near_address)
-    //             const data= await axios.get("https://api.burylove.org/api/near/user/pet/all",{
-    //                 params:{
-    //                     near_address:'zombies.testnet'
-    //                 }})
-    //             // console.log(data.data)
-    //             setPetList(data.data)
-    //             // setPet(data.data)
-    //         }
-    //         fetchUserBounty()
-    //     }
-    // },[router.isReady])
+    useEffect(()=>{
+        if (router.isReady){
+            const fetchUserBounty = async () => {
+                // console.log(near_address)
+                const data= await axios.get("http://127.0.0.1:7001/api/near/user/pet/all",{
+                    params:{
+                        near_address
+                    }})
+                setPetList(data.data)
+                setPet(data.data[0])
+            }
+            fetchUserBounty()
+        }
+    },[router.isReady])
     let new_clickNum
     const right = () => {
             new_clickNum = clickNmu + 1
@@ -86,8 +77,9 @@ const Main = () =>{
     const learn =()=>{
         setLearning(true)
     }
-    if (Pet.length != 0){
-        // console.log(pet)
+    if (Pet[0].near_pet_index != '0'){
+        console.log(Pet[0].near_pet_index)
+        console.log(pet)
         return (
             <div className="relative">
                 <div className="absolute inset-x-0 bottom-0    " />
@@ -102,7 +94,6 @@ const Main = () =>{
                     <Header/>
                     <div className="max-w-7xl relative px-8  pt-20 pb-12 max-h-screen    mx-auto rounded-b-3xl ">
                         <div>
-
                             <Transition
                                 show={true}
                                 enter="transition-opacity ease-linear duration-300"
@@ -118,7 +109,7 @@ const Main = () =>{
                                         Learning...
                                     </div>
                                     <div className="text-center mt-4 mb-10">
-                                        #{pet.number}
+                                        #{pet.near_pet_index}
                                     </div>
                                     </div>
                                     <div className="flex px-4 items-center text-2xl h-56 text-gray-400">
@@ -127,8 +118,8 @@ const Main = () =>{
                                                 <i className="fa fa-arrow-left" aria-hidden="true"></i>
                                             </button>
                                         </div>
-                                        <Link href={`/pet/${pet.number}`}>
-                                            <img className="w-36 mx-auto" src={pet.img} alt=""/>
+                                        <Link href={`/pet/${pet.near_pet_index}`}>
+                                            <img className="w-36 mx-auto" src={pet.near_pet_image_url} alt=""/>
                                         </Link>
                                         <div>
                                             <button onClick={right}>
@@ -141,7 +132,7 @@ const Main = () =>{
                                         <div className="rounded-full border border-gray-400 w-20 h-5">
                                         </div>
                                         <div>
-                                            LV{pet.lvl}
+                                            LV{pet.near_pet_level}
                                         </div>
                                         <div className="rounded-full border border-gray-400 w-20 h-5">
                                         </div>
@@ -218,21 +209,15 @@ const Main = () =>{
                             >
                                 <div className="border-2 border-gray-400 bg-white rounded-2xl border-b-4 border-r-4">
                                     <div className="text-center mt-4 mb-10">
-                                        #{pet.number}
+
                                     </div>
                                     <div className="flex px-4 items-center text-2xl h-56 text-gray-400">
                                         <div className="">
-                                            <button onClick={left}>
-                                                <i className="fa fa-arrow-left" aria-hidden="true"></i>
-                                            </button>
+
                                         </div>
-                                        <Link href="/bag/detail">
-                                            <img className="w-36 mx-auto" src={pet.img} alt=""/>
-                                        </Link>
+
                                         <div>
-                                            <button onClick={right}>
-                                                <i className="fa fa-arrow-right" aria-hidden="true"></i>
-                                            </button>
+
                                         </div>
                                     </div>
 
@@ -240,7 +225,7 @@ const Main = () =>{
                                         <div className="rounded-full border border-gray-400 w-20 h-5">
                                         </div>
                                         <div>
-                                            LV{pet.lvl}
+
                                         </div>
                                         <div className="rounded-full border border-gray-400 w-20 h-5">
                                         </div>

@@ -12,7 +12,7 @@ const Loading =()=>{
   return(
     <div>
       <Transition.Root show={openload} as={Fragment}>
-        <Dialog as="div" className="fixed z-20 inset-0 overflow-y-auto "  onClose={alwaystrue}>
+        <Dialog as="div" className="fixed z-40 inset-0 overflow-y-auto "  onClose={alwaystrue}>
           <div className="flex items-center justify-center min-h-screen     text-center ">
             <Transition.Child
               as={Fragment}

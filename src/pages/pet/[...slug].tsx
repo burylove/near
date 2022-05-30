@@ -6,7 +6,8 @@ import {Dialog, Transition} from "@headlessui/react";
 import axios from "axios";
 import router, {useRouter} from "next/router";
 import {useAtom} from "jotai";
-import {LoadingState} from "../../jotai";
+import {LoadingState, NearAccount} from "../../jotai";
+import Loading from "../../components/loading";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -14,11 +15,15 @@ function classNames(...classes) {
 const Detail = () =>{
     const router = useRouter()
     const [openload,setOpenload]=useAtom(LoadingState)
+    const[near_address,setNear_hex_account] =useAtom(NearAccount)
     const [openLevel,setOpenLevel] = useState(false)
     const [openRepair,setOpenRepair] = useState(false)
     const [openSell,setOpenSell] = useState(false)
     const [openSellPrice,setOpenSellPrice] = useState(false)
     const [openTransfer,setOpenTransfer] = useState(false)
+    const [current,setCurrent] = useState(0)
+    const [durability,setDurability] = useState(0)
+    const [cost,setCost] = useState(0)
     const minted = [
         {
             type:"Uncommon",
@@ -51,20 +56,18 @@ const Detail = () =>{
     const content={
         id:"",
         near_address:"",
-        near_pet_birth_times:"",
+        near_pet_mint_number:"",
         near_pet_charisma_value:"",
         near_pet_health_value:"",
         near_pet_hunger_value:"",
         near_pet_image_url:"",
         near_pet_index:"",
         near_pet_intelligence_value:"",
-        near_pet_level:"",
+        near_pet_level:0,
         near_pet_lucky_value:"",
         near_pet_name:"",
         near_pet_price:"",
-        near_pet_stamina_value:"",
         near_pet_type:"",
-        near_pet_mint_number:"",
         near_pet_child_1:"",
         near_pet_child_2:"",
         near_pet_child_3:"",
@@ -79,32 +82,19 @@ const Detail = () =>{
         near_pet_parents_2:""
     }
     const [info,setInfo] = useState(content)
-    const sell = async ()=>{
-        setOpenload(true)
-        const price =  (document.getElementById("price") as HTMLInputElement).value
-        await  axios.post("https://api.burylove.org/api/near/user/sell/pet_store",{
-            near_pet_index:info.near_pet_index,
-            near_pet_price:price,
-        }).then(async function(response){
-            setOpenload(false)
-            alert("成功")
-            await router.push("/bag")
-        }).catch(async function (error){
-            setOpenload(false)
-            alert("请重试")
-        })
-    }
+
     useEffect(()=>{
         if (router.isReady){
+            setOpenload(true)
             const near_pet_index = router.query.slug[0]
             const fetchUserBounty = async (near_pet_index) => {
-                const data = await axios.get(`https://api.burylove.org/api/near/user/pet/details?near_pet_index=${near_pet_index}`)
+                const data = await axios.get(`http://127.0.0.1:7001/api/near/user/pet/details?near_pet_index=${near_pet_index}`)
                 console.log(data.data)
                 const info = data.data
                 const content={
                     id:info.id,
                     near_address:info.near_address,
-                    near_pet_birth_times:info.near_pet_birth_times,
+                    near_pet_mint_number:info.near_pet_mint_number,
                     near_pet_charisma_value:info.near_pet_charisma_value,
                     near_pet_health_value:info.near_pet_health_value,
                     near_pet_hunger_value:info.near_pet_hunger_value,
@@ -115,9 +105,7 @@ const Detail = () =>{
                     near_pet_lucky_value:info.near_pet_lucky_value,
                     near_pet_name:info.near_pet_name,
                     near_pet_price:info.near_pet_price,
-                    near_pet_stamina_value:info.near_pet_stamina_value,
                     near_pet_type:info.near_pet_type,
-                    near_pet_mint_number:info.near_pet_mint_number,
                     near_pet_child_1:info.near_pet_child_1,
                     near_pet_child_2:info.near_pet_child_2,
                     near_pet_child_3:info.near_pet_child_3,
@@ -132,18 +120,102 @@ const Detail = () =>{
                     near_pet_parents_2:info.near_pet_parents_2
                 }
                 setInfo(content)
-                console.log(data.data.near_pet_mint_number)
             }
             fetchUserBounty(near_pet_index)
+            setOpenload(false)
         }
     },[router.isReady])
+    const sell = async ()=>{
+        setOpenload(true)
+        const price =  (document.getElementById("price") as HTMLInputElement).value
+        await  axios.post("http://127.0.0.1:7001/api/near/user/sell/pet_store",{
+            near_pet_index:info.near_pet_index,
+            near_pet_price:price,
+        }).then(async function(response){
+            setOpenload(false)
+            alert("成功")
+            await router.push("/bag")
+        }).catch(async function (error){
+            setOpenload(false)
+            alert("请重试")
+        })
+    }
+    const repair =async ()=>{
+        const near_pet_index = router.query.slug[0]
+        const data = await axios.get(`http://127.0.0.1:7001/api/near/user/pet/details?near_pet_index=${near_pet_index}`)
+        setDurability(data.data.near_pet_hunger_value)
+            setCost(0)
+            setOpenRepair(true)
+            setCurrent(data.data.near_pet_hunger_value)
+    }
+    const rangeChange = () =>{
+        const value = (document.getElementById('range1') as HTMLInputElement).value ;
+        const data =Number(((Number(value)-Number(durability))*0.41).toFixed(2))
+        setCurrent(Number(value))
+        setCost(data)
+        console.log(data)
+    }
+    const repair_confirm =async ()=>{
+        setOpenload(true)
+        await axios.post("http://127.0.0.1:7001/api/near/user/repair_pet",{
+            near_address,
+            near_pet_index:info.near_pet_index,
+            repair_data:cost
+        }).then(async function(response){
+            setOpenload(false)
+            alert("修理成功")
+            location.reload();
+        }).catch(async function (error) {
+            setOpenload(false)
+            alert("网络繁忙")
+        })
+
+
+    }
+    const confirm = async () =>{
+        setOpenload(true)
+        setOpenTransfer(false)
+        await axios.post("http://127.0.0.1:7001/api/near/user/transfer/nft_to_external",{
+            near_address,
+            near_pet_index:info.near_pet_index
+        }).then(async function(response){
+            setOpenload(false)
+            alert("成功")
+            await router.push("/main")
+        }).catch(async function (error) {
+            setOpenload(false)
+            alert("网络繁忙")
+        })
+    }
+    const level = async () =>{
+        setOpenload(true)
+        await axios.post("http://127.0.0.1:7001/api/near/user/level_pet",{
+            near_address,
+            near_pet_index:info.near_pet_index
+        })
+            .then(async function(response){
+            setOpenload(false)
+            location.reload();
+        }).catch(async function (error) {
+            setOpenload(false)
+            alert("网络繁忙,升级失败")
+        })
+
+    }
+    const mint = ()=>{
+        if(info.near_pet_level <5){
+            alert("Mint需要宠物等级达到5级")
+        }else{
+            router.push(`/mint/${info.near_pet_type}/${info.near_pet_index}/${info.near_pet_mint_number}/${info.near_pet_image_url}`)
+        }
+    }
     if (info != content) {
         return (
             <div className="relative">
                 <div className="absolute inset-x-0 bottom-0    "/>
                 <div className=" mx-auto  ">
                     <div className="fixed z-20 inset-x-0 flex justify-between px-5 mx-auto ">
-                        <Link href="/main">
+                        <Link href="/bag">
                             <div className="text-2xl text-gray-600 ">
                                 <i className="fa fa-reply" aria-hidden="true"></i>
                             </div>
@@ -162,19 +234,36 @@ const Detail = () =>{
                             <div className="mt-20 mx-14 border border-gray-500 rounded-2xl p-5">
                                 <img className="w-36 mx-auto" src={info.near_pet_image_url} alt=""/>
                             </div>
-                            <div className="flex justify-between my-10 items-center px-4 text-sm">
+                            <div className="flex justify-between mt-10 mb-5 items-center px-4 text-sm">
                                 <div
                                     className={classNames(PetStyle[info.near_pet_type], "border rounded-full px-2 py-0.5 bg-gray-200")}>
-                                    Common
+                                    {info.near_pet_type}
                                 </div>
                                 <div
                                     className={classNames(PetStyle[info.near_pet_type], "border rounded-full px-2 py-0.5 bg-gray-200")}>
                                     #{info.near_pet_index}
                                 </div>
-                                <div className="w-24 bg-gray-200 h-6 rounded-r-full items-center">
-                                    <div className="bg-green-500 h-6 rounded-r-full" style={{width:`${info.near_pet_hunger_value}%`}}></div>
+                                <button onClick={repair} className="w-24 bg-gray-200 h-6 rounded-r-full items-center">
+                                    <div className="bg-green-400 h-6 rounded-r-full" style={{width:`${info.near_pet_hunger_value}%`}}></div>
                                     <div className="-mt-5 mb-0.5  flex justify-center text-xs">
                                         {info.near_pet_hunger_value}/100
+                                    </div>
+                                </button>
+
+                            </div>
+                            <div className="px-5 pb-3">
+                            <div className="w-full bg-gray-200 h-4   rounded-full">
+                                <div className="bg-green-400 h-4 rounded-full"
+                                     style={{width: Number(Number(`${info.near_pet_level}`) * 5) + "%"}}></div>
+                                <div className="-mt-4 mb-0.5  flex justify-center text-xs">
+                                    Level {info.near_pet_level}
+                                </div>
+                            </div>
+                                <div className="w-full bg-gray-200 h-4 mt-5  rounded-full">
+                                    <div className="bg-green-400 h-4 rounded-full"
+                                         style={{width: Number(Number(`${info.near_pet_mint_number}`) * 10) + "%"}}></div>
+                                    <div className="-mt-4 mb-0.5  flex justify-center text-xs">
+                                        Shoe Mint {info.near_pet_mint_number}/10
                                     </div>
                                 </div>
                             </div>
@@ -192,8 +281,8 @@ const Detail = () =>{
                                                 智力值
                                             </div>
                                             <div className="w-full bg-gray-200 h-4 rounded-r-full">
-                                                <div className="bg-green-500 h-4 rounded-r-full"
-                                                     style={{width: `${info.near_pet_intelligence_value}%`}}></div>
+                                                <div className="bg-green-400 h-4 rounded-r-full"
+                                                     style={{width: Number(Number(`${info.near_pet_intelligence_value}`) / 2) + "%"}}></div>
                                             </div>
                                             <div className="pl-4 w-14 flex justify-center text-sm">
                                                 {info.near_pet_intelligence_value}
@@ -209,8 +298,8 @@ const Detail = () =>{
                                                 魅力值
                                             </div>
                                             <div className="w-full bg-gray-200 h-4 rounded-r-full">
-                                                <div className="bg-green-500 h-4 rounded-r-full"
-                                                     style={{width: `${info.near_pet_charisma_value}%`}}></div>
+                                                <div className="bg-green-400 h-4 rounded-r-full"
+                                                     style={{width: Number(Number(`${info.near_pet_charisma_value}`) / 2) + "%"}}></div>
                                             </div>
                                             <div className="pl-4 w-14 flex justify-center text-sm">
                                                 {info.near_pet_charisma_value}
@@ -226,8 +315,8 @@ const Detail = () =>{
                                                 健康值
                                             </div>
                                             <div className="w-full bg-gray-200 h-4 rounded-r-full">
-                                                <div className="bg-green-500 h-4 rounded-r-full"
-                                                     style={{width: `${info.near_pet_health_value}%`}}></div>
+                                                <div className="bg-green-400 h-4 rounded-r-full"
+                                                     style={{width: Number(Number(`${info.near_pet_health_value}`) / 2) + "%"}}></div>
                                             </div>
                                             <div className="pl-4 w-14 flex justify-center text-sm">
                                                 {info.near_pet_health_value}
@@ -243,7 +332,7 @@ const Detail = () =>{
                                                 幸运值
                                             </div>
                                             <div className="w-full bg-gray-200 h-4 rounded-r-full">
-                                                <div className="bg-green-500 h-4 rounded-r-full"
+                                                <div className="bg-green-400 h-4 rounded-r-full"
                                                      style={{width: Number(Number(`${info.near_pet_lucky_value}`) / 2) + "%"}}></div>
                                             </div>
                                             <div className="pl-4 w-14 flex justify-center text-sm">
@@ -304,7 +393,8 @@ const Detail = () =>{
                         <div
                             className="flex justify-between w-full bg-white px-4 pb-4 p-2 border-t-2 border-blue-300 rounded-t-3xl">
                             <button className="" onClick={() => {
-                                setOpenLevel(true)
+                                if(Number(info.near_pet_level) !== 20){
+                                setOpenLevel(true) }
                             }}>
                                 <div className="text-2xl text-blue-300">
                                     <i className="fa fa-level-up " aria-hidden="true"></i>
@@ -312,23 +402,21 @@ const Detail = () =>{
                                 <div className="text-xs">Level up</div>
                             </button>
 
-                            <button className="" onClick={() => {
-                                setOpenRepair(true)
-                            }}>
+                            <button className="" onClick={repair}>
                                 <div className="text-2xl text-blue-300">
                                     <i className="fa fa-wrench" aria-hidden="true"></i>
                                 </div>
                                 <div className="text-xs">Repair</div>
                             </button>
 
-                            <Link href="/mint">
+                            <button onClick={mint}>
                                 <a>
                                     <div className="text-2xl text-blue-300">
                                         <i className="fa fa-heart" aria-hidden="true"></i>
                                     </div>
                                     <div className="text-xs">Mint</div>
                                 </a>
-                            </Link>
+                            </button>
 
                             <button className="" onClick={() => {
                                 setOpenSell(true)
@@ -387,16 +475,14 @@ const Detail = () =>{
                                 leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                             >
                                 <div
-                                    className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6">
+                                    className="inline-block align-bottom bg-white rounded-lg w-96 px-4 pt-5 pb-4 text-left  shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6">
                                     <div>
-                                        <div className="flex justify-end text-xl w-72">
-                                            <button onClick={() => {
-                                                setOpenLevel(false)
-                                            }}>
+                                        <div className="flex justify-end text-xl ">
+                                            <button onClick={() => {setOpenLevel(false)}}>
                                                 <i className="fa fa-times" aria-hidden="true"></i>
                                             </button>
                                         </div>
-                                        <div className=" text-center ">
+                                        <div className="text-center">
                                             <div className="font-semibold">
                                                 LEVEL UP
                                             </div>
@@ -426,7 +512,7 @@ const Detail = () =>{
                                             className="flex mt-2 justify-between border border-gray-500 bg-gray-100 rounded-full px-2 py-1">
                                             <div className=" text-gray-500"> Time</div>
                                             <div className="font-semibold">
-                                                {Number(info.near_pet_level)*60}mins
+                                                {Number(info.near_pet_level)*60} mins
                                             </div>
                                         </div>
 
@@ -441,6 +527,7 @@ const Detail = () =>{
                                                 CANCEL
                                             </button>
                                             <button
+                                                onClick={level}
                                                 type="button"
                                                 className="w-36 flex mt-5  justify-center rounded-full border border-gray-600 border-b-4 border-r-4  shadow-sm px-4 py-2 bg-blue-300 text-base font-medium text-white "
                                             >
@@ -481,9 +568,9 @@ const Detail = () =>{
                                 leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                             >
                                 <div
-                                    className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6">
+                                    className="inline-block align-bottom bg-white rounded-lg w-96 px-4 pt-5 pb-4 text-left  shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6">
                                     <div>
-                                        <div className="flex justify-end text-xl w-72">
+                                        <div className="flex justify-end text-xl ">
                                             <button onClick={() => {
                                                 setOpenRepair(false)
                                             }}>
@@ -501,19 +588,19 @@ const Detail = () =>{
                                             <img className="w-36 " src="/1.png" alt=""/>
                                         </div>
                                         <div className="flex justify-center mt-2 font-semibold text-md">
-                                            Durability:{info.near_pet_hunger_value}/100
+                                            Durability:{current}/100
                                         </div>
                                         <div className="relative pt-1">
                                             <div className="range">
-                                                <input type="range" className="form-range w-full" min="40" max="100"
-                                                       step="1" id="customRange2"/>
+                                                <input type="range" className="form-range w-full" min={durability} max="100" defaultValue={durability}
+                                                       step="1" id="range1" onChange={rangeChange}/>
                                             </div>
                                         </div>
                                         <div
                                             className="flex mt-2 justify-between border border-gray-500 bg-gray-100 rounded-full px-2 py-1">
                                             <div className=" text-gray-500"> Cost</div>
                                             <div className="font-semibold">
-                                                0 GST
+                                                {cost} GST
                                             </div>
                                         </div>
 
@@ -528,6 +615,7 @@ const Detail = () =>{
                                                 CANCEL
                                             </button>
                                             <button
+                                                onClick={repair_confirm}
                                                 type="button"
                                                 className="w-36 flex mt-5  justify-center rounded-full border border-gray-600 border-b-4 border-r-4  shadow-sm px-4 py-2 bg-blue-300 text-base font-medium text-white "
                                             >
@@ -568,9 +656,9 @@ const Detail = () =>{
                                 leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                             >
                                 <div
-                                    className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6">
+                                    className="inline-block align-bottom bg-white rounded-lg px-4 w-96 pt-5 pb-4 text-left  shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6">
                                     <div>
-                                        <div className="flex justify-end text-xl w-72">
+                                        <div className="flex justify-end text-xl ">
                                             <button onClick={() => {
                                                 setOpenSell(false)
                                             }}>
@@ -616,13 +704,10 @@ const Detail = () =>{
                                             <div className="pl-10">
                                                 Shoe mint
                                                 <div className="text-black font-semibold text-sm">
-                                                    {info.near_pet_mint_number}/7
+                                                    {info.near_pet_mint_number}/10
                                                 </div>
                                             </div>
-
                                         </div>
-
-
                                         <div className="flex justify-between">
                                             <button
                                                 onClick={() => {
@@ -678,9 +763,9 @@ const Detail = () =>{
                                 leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                             >
                                 <div
-                                    className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6">
+                                    className="inline-block align-bottom bg-white rounded-lg  px-4 pt-5 pb-4 text-left w-96  shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6">
                                     <div>
-                                        <div className="flex justify-end text-xl w-72">
+                                        <div className="flex justify-end text-xl ">
                                             <button onClick={() => {
                                                 setOpenSellPrice(false)
                                             }}>
@@ -768,9 +853,9 @@ const Detail = () =>{
                                 leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                             >
                                 <div
-                                    className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6">
+                                    className="inline-block align-bottom bg-white rounded-lg w-96 px-4 pt-5 pb-4 text-left  shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full sm:p-6">
                                     <div>
-                                        <div className="flex justify-end text-xl w-72">
+                                        <div className="flex justify-end text-xl ">
                                             <button onClick={() => {
                                                 setOpenTransfer(false)
                                             }}>
@@ -802,15 +887,16 @@ const Detail = () =>{
 
                                         <div className="flex justify-between">
                                             <button
-                                                onClick={() => {
-                                                    setOpenTransfer(false)
-                                                }}
+                                               onClick={()=>{
+                                                   setOpenTransfer(false)
+                                               }}
                                                 type="button"
                                                 className="w-36 flex mt-5 mr-2  justify-center rounded-full border border-gray-500 border-b-4 border-r-4 shadow-sm px-4 py-2  text-base font-medium text-black  "
                                             >
                                                 CANCEL
                                             </button>
                                             <button
+                                                onClick={confirm}
                                                 type="button"
                                                 className="w-36 flex mt-5  justify-center rounded-full border border-gray-600 border-b-4 border-r-4  shadow-sm px-4 py-2 bg-blue-300 text-base font-medium text-white "
                                             >
@@ -823,6 +909,7 @@ const Detail = () =>{
                         </div>
                     </Dialog>
                 </Transition.Root>
+                <Loading/>
             </div>
         )
     }else {
