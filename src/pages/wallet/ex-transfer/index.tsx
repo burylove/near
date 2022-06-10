@@ -44,11 +44,11 @@ const External ={
 
 const ExTransfer = () =>{
     const tokenInfo = Constant()
-    const [openload,setOpenload]=useAtom(LoadingState)
+    const [,setOpenload]=useAtom(LoadingState)
     const [selected, setSelected] = useState(tokens[2])
     const [internal,setInternal] = useState(Internal)
     const [external,setExternal] = useState(External)
-    const [near_address,setNear_hex_account] =useAtom(NearAccount)
+    const [near_address,] =useAtom(NearAccount)
     const exchange = ()=>{
         setInternal(external)
         setExternal(internal)}

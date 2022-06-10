@@ -4,12 +4,15 @@ import {HiddenReciprocal, NearAccount, PeopleEmail} from "../../jotai";
 import axios from "axios";
 const Login = () =>{
     const[email,setEmail] = useAtom(PeopleEmail)
+    //Open waiting time 10s
     const[hidden,setHidden] = useState(false)
-    const[time,setTime] = useState(21)
     const[near_address,setNear_hex_account] =useAtom(NearAccount)
     useEffect(()=>{
 
     },[])
+
+    //get verification code
+
     const send = async () =>{
         const Email = (document.getElementById("email") as HTMLInputElement).value
         await axios.post("http://127.0.0.1:7001/api/email/send",{
@@ -24,6 +27,8 @@ const Login = () =>{
             });
 
     }
+
+    //Disable clicks
 
     const countdown = ()=>{
             setHidden(true)
@@ -47,10 +52,16 @@ const Login = () =>{
                     alert("请输入正确的验证码")
                 }else {
                     if(response.data.length == 0){
+
+                        // new account
+
                         setEmail(Email)
                         console.log(email)
                         window.location.replace('/login/activation')
                     }else {
+
+                        //have an account
+
                         console.log("New address")
                         console.log(response.data[0].near_address)
                         setEmail(Email)
@@ -66,18 +77,23 @@ const Login = () =>{
     }
 
     return (
-        <div className="relative pt-16">
+        <div className="relative ">
             <div className="absolute inset-x-0 bottom-0    " />
             <div className="absolute inset-0">
                 <img
                     className="h-screen w-full mx-auto"
-                    src="https://cdn.discordapp.com/attachments/876498266550853642/969529054967529522/5.png"
+                    src="https://cdn.discordapp.com/attachments/876498266550853642/984032771808854016/Login.png"
                     alt="People working on laptops"
                 />
                 </div>
             <div className=" mx-auto  ">
-                <div className="max-w-7xl relative px-12 py-16  sm:px-6  mx-auto ">
-                    <div>
+                <div className="fixed z-20 inset-x-0 flex justify-between">
+                    <button onClick={()=>{window.history.back()}}>
+                        <img className="w-8 ml-4 mt-10" src="https://cdn.discordapp.com/attachments/876498266550853642/984029778149523466/Login.png" alt=""/>
+                    </button>
+                </div>
+                <div className="max-w-7xl relative px-12 py-16 h-screen  sm:px-6  mx-auto ">
+                    <div className="mt-36 ">
                         <div className="flex justify-between items-center">
                             <div>
                                 <input type="text"
@@ -88,7 +104,9 @@ const Login = () =>{
                             </div>
                             <div>
                                 <button onClick={send} className={hidden?"hidden":""}>
-                                    <img className="w-32" src="https://cdn.discordapp.com/attachments/876498266550853642/969529054581620786/LOGINsend.png" alt=""/></button>
+                                    <div className="w-24 rounded-lg px-5 py-3 bg-white">
+                                        Spend
+                                    </div></button>
                                 <button  className={hidden?"cursor-not-allowed w-32 bg-blue-300 py-3 rounded-xl font-semibold":"hidden"}>
                                     Resend
                                     </button>
@@ -105,9 +123,8 @@ const Login = () =>{
                         </div>
                         <div className="flex justify-center mt-32">
                             <button onClick={login}  className="">
-                                <img className="w-32" src="https://cdn.discordapp.com/attachments/876498266550853642/969529054397100032/LOGIN.png" alt=""/>
+                                <img className="w-32" src="https://cdn.discordapp.com/attachments/876498266550853642/984032796328738826/Login.png" alt=""/>
                             </button>
-
                         </div>
                     </div>
                 </div>

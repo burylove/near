@@ -11,7 +11,8 @@ import {
     GMTToken,
     GSTToken,
     NearAccount,
-    NEARToken
+    NEARToken,
+    SwitchChain
 } from "../../../jotai";
 import axios from "axios";
 import { formatDecimal } from "../../../utils";
@@ -23,36 +24,38 @@ function classNames(...classes) {
 const tokens = [
     {
         id: 1,
-        name: 'GST',
-        avatar: "https://s2.coinmarketcap.com/static/img/coins/64x64/16352.png",
-    },
-    {
-        id: 2,
-        name: 'GMT',
-        avatar: "https://s2.coinmarketcap.com/static/img/coins/200x200/18069.png"
-    },
-    {
-        id: 3,
         name: 'NEAR',
         avatar: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1onspODOPj_-mr_lbWFWTt6SFO69mMdG6eT-tnkCiaBy97s2i-1KauNPVv4nN_L1bYkA&usqp=CAU",
     },
+    {
+        id: 2,
+        name: 'ETH',
+        avatar: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1onspODOPj_-mr_lbWFWTt6SFO69mMdG6eT-tnkCiaBy97s2i-1KauNPVv4nN_L1bYkA&usqp=CAU",
+    },
 ]
-
-
-
 const ExternalInfo = () =>{
-    const [selected, setSelected] = useState(tokens[2])
+
+    // NEAR network is selected by default
+    const [selected, setSelected] = useAtom(SwitchChain)
     const [copyStyle,setCopyStyle] =useState(false)
     const [tokenName,SetTokenName] = useState("NEAR")
+
+    //Open Receive popup
     const [openReceive,setOpenReceive] =useState(false)
+
+    //Open External popup
     const [openExternal,setOpenExternal] =useState(false)
 
-    const [externalGSTtoken,setExternalGSTtoken] = useAtom(ExternalGSTToken)
-    const [externalGMTtoken,setExternalGMTtoken] = useAtom(ExternalGMTToken)
+    //NEARToken
     const [externalNEARtoken,setExternalNEARtoken] = useAtom(ExternalNEARToken)
+
+    // USNToken
     const [externalUSNtoken,setExternalUSNtoken] = useAtom(ExternalUSNToken)
+
     const [near_address,setNear_hex_account] =useAtom(NearAccount)
+    //cropped address
     const [address,setAddress] = useState('')
+
     useEffect(()=>{
         const fetchUserBounty = async () => {
             console.log(near_address)
@@ -70,14 +73,7 @@ const ExternalInfo = () =>{
                     }
                 })
             const USN_balance =Number(formatDecimal(USN.data/1000000000000000000,8))
-                setExternalUSNtoken(USN_balance)
-            const GST = await  axios.get("http://127.0.0.1:7001/api/near/query/near_account_tokenA_balance",{
-                params:{
-                    near_address
-                }
-            })
-            const GST_balance = Number(formatDecimal(GST.data/10000000000000000000000000000,2))
-            setExternalGSTtoken(GST_balance)
+            setExternalUSNtoken(USN_balance)
         }
         fetchUserBounty()
         const first = near_address.slice(0,6);
@@ -120,6 +116,7 @@ const ExternalInfo = () =>{
                 <div className=" mx-auto  ">
                     <div className="max-w-7xl relative px-8 py-10   mx-auto ">
                         <div className="mt-5">
+                            {/*selection box*/}
                             <div className="flex justify-center">
                                 <Listbox value={selected} onChange={setSelected}>
                                     {({open}) => (
@@ -172,64 +169,58 @@ const ExternalInfo = () =>{
                                     )}
                                 </Listbox>
                             </div>
-                            <div className="flex justify-center mt-5 text-2xl font-semibold">
-                                <div>
-                                    {externalNEARtoken}
+
+                            {/*Token Number*/}
+                            <div className="flex justify-center">
+                            <div className="flex justify-center  mt-5 text-xl font-semibold text-white rounded-full px-4 py-0.5 bg-purple-700">
+                                <div>{externalNEARtoken}
                                 </div>
-                                <div className="ml-1">
+                                <div className="ml-1 ">
                                     {tokenName}
                                 </div>
                             </div>
-                            <div className="flex justify-center mt-5">
-                                <button onClick={() => {Copy('address') }} className={copyStyle?"w-6/12 px-4 text-center  bg-green-300  py-0.5 border-gray-500 border border-2 border-b-4 border-r-4 rounded-full":"w-6/12 px-4 text-center  py-0.5 border-gray-500 border border-2 border-b-4 border-r-4 rounded-full"}>
+                            </div>
+                            <div className="flex justify-center  mt-5">
+                                <button onClick={() => {Copy('address') }} className={copyStyle?"w-6/12 px-4 text-center   bg-white  py-0.5 border-gray-500 border border-2 border-b-4 border-r-4 rounded-full":"w-6/12 px-4 text-center bg-white  py-0.5 border-gray-500 border border-2 border-b-4 border-r-4 rounded-full"}>
                                     {address}
                                 </button>
                                 <div className="hidden"  id="address">
                                     {near_address}
                                 </div>
                             </div>
-
-                            <div className="flex justify-between mt-10 px-2 items-center">
+                            {/*function button*/}
+                            <div className="flex justify-between mt-10 px-10 items-center">
                                 <button onClick={()=>{setOpenReceive(true)}}>
-                                    <div className=" flex w-14 items-center p-1 text-2xl  border-gray-500 border-2 rounded-full">
-                                    <img className="w-24" src="https://cdn.discordapp.com/attachments/876498266550853642/978935657693077525/Receive.png" alt=""/>
-                                   </div>
-                                    <div className="text-xs text-center ">
+                                    <div className="-500 flex w-20 items-center p-1 text-2xl    rounded-full">
+                                        <img className="" src="https://cdn.discordapp.com/attachments/876498266550853642/984772328221204560/external_receive.png" alt=""/>
+                                    </div>
+                                    <div className="text-xs text-center text-white mt-1">
                                         Receive
                                     </div>
                                 </button>
-                                <Link href="/wallet/ex-transfer">
-                                    <a>
-                                        <div className=" flex w-14 items-center p-1 text-2xl  border-gray-500 border-2 rounded-full">
-                                            <img className="w-24" src="https://cdn.discordapp.com/attachments/876498266550853642/978935657147826186/Inside.png" alt=""/>
-                                        </div>
-                                    <div className="text-xs text-center mt-1">
-                                        Inside
-                                    </div>
-                                    </a>
-                                </Link>
 
                                 <button onClick={()=>{setOpenExternal(true)}}>
-                                    <div className=" flex w-14 items-center p-1 text-2xl  border-gray-500 border-2 rounded-full">
-                                        <img className="w-24" src="https://cdn.discordapp.com/attachments/876498266550853642/978935656870969384/External.png" alt=""/>
+                                    <div className="-500 flex w-20 items-center p-1 text-2xl    rounded-full">
+                                        <img className="" src="https://cdn.discordapp.com/attachments/876498266550853642/984772328510590976/external_.png" alt=""/>
                                     </div>
-                                    <div className="text-xs text-center mt-1">
+                                    <div className="text-xs text-center text-white mt-1">
                                        External
                                     </div>
                                 </button>
+
                                 <Link href="/wallet/trade">
                                     <a>
-                                        <div className="-500 flex w-14 items-center p-1 text-2xl  border-gray-500 border-2 rounded-full">
-                                            <img className="w-24" src="https://cdn.discordapp.com/attachments/876498266550853642/978935657944715304/Trade.png" alt=""/>
+                                        <div className="-500 flex w-20 items-center p-1 text-2xl    rounded-full">
+                                            <img className="" src="https://cdn.discordapp.com/attachments/876498266550853642/984772327982125086/external_trade.png" alt=""/>
                                         </div>
-                                    <div className="text-xs text-center mt-1">
-                                        Trade
-                                    </div>
+                                        <div className="text-xs text-center text-white mt-1">
+                                            Trade
+                                        </div>
                                     </a>
                                 </Link>
                             </div>
 
-                            <div className="mt-8 text-xl font-semibold flex items-center">
+                            <div className="mt-8 text-xl font-semibold text-white flex items-center">
                                 Wallet Account
                                 <div className="ml-5 text-2xl text-gray-500">
                                     <button>
@@ -237,7 +228,8 @@ const ExternalInfo = () =>{
                                     </button>
                                 </div>
                             </div>
-                            <div className="mt-2 border-2 border-gray-500 rounded-xl  border-r-4 border-b-4">
+                            {/*wallet balance*/}
+                            <div className="mt-2 border-2 border-gray-500 rounded-xl  bg-white border-r-4 border-b-4">
                                 <div className="flex justify-between px-4 py-2 items-center ">
                                     <div className="flex items-center">
                                         <div>
@@ -252,35 +244,7 @@ const ExternalInfo = () =>{
                                         {externalNEARtoken}
                                     </div>
                                 </div>
-                                <div className="flex justify-between px-4 py-2 border-t border-b border-gray-500 items-center ">
-                                    <div className="flex items-center">
-                                        <div>
-                                            <img className="rounded-full w-9"
-                                                 src="https://s2.coinmarketcap.com/static/img/coins/64x64/16352.png" alt=""/>
-                                        </div>
-                                        <div className="ml-2 font-semibold">
-                                            GST
-                                        </div>
-                                    </div>
-                                    <div className="text-left">
-                                        {externalGSTtoken}
-                                    </div>
-                                </div>
-                                <div className="flex justify-between px-4 py-2  border-b border-gray-500   items-center ">
-                                    <div className="flex items-center">
-                                        <div>
-                                            <img className="rounded-full w-9"
-                                                 src="https://s2.coinmarketcap.com/static/img/coins/200x200/18069.png" alt=""/>
-                                        </div>
-                                        <div className="ml-2 font-semibold">
-                                            GMT
-                                        </div>
-                                    </div>
-                                    <div className="text-left">
-                                        {externalGMTtoken}
-                                    </div>
-                                </div>
-                                <div className="flex justify-between px-4 py-2 items-center ">
+                                <div className="flex justify-between border-t border-gray-500 px-4 py-2 items-center ">
                                     <div className="flex items-center">
                                         <div>
                                             <img className="rounded-full w-9"
@@ -294,8 +258,9 @@ const ExternalInfo = () =>{
                                         {externalUSNtoken}
                                     </div>
                                 </div>
+
                             </div>
-                            <div className="mt-5 border-2 border-gray-500 rounded-xl  border-r-4 border-b-4">
+                            <div className="mt-5 border-2 border-gray-500 rounded-xl bg-white  border-r-4 border-b-4">
                                 <Link href="/wallet/external/pets">
                                 <div className="flex justify-between px-4 py-2 items-center ">
                                     <div className="flex items-center">
@@ -304,7 +269,7 @@ const ExternalInfo = () =>{
                                                  src="https://cdn.discordapp.com/attachments/876498266550853642/978935657407860756/Pets.png" alt=""/>
                                         </div>
                                         <div className="ml-2 font-semibold">
-                                            Pets
+                                           勋章
                                         </div>
                                     </div>
                                     <div className="text-left">
@@ -312,21 +277,6 @@ const ExternalInfo = () =>{
                                     </div>
                                 </div>
                                 </Link>
-                                <div className="flex justify-between px-4 py-2 border-t border-b border-gray-500 items-center ">
-                                    <div className="flex items-center">
-                                        <div>
-                                            <img className="rounded-full w-10"
-                                                 src="https://cdn.discordapp.com/attachments/876498266550853642/978935656623517737/Eggs.png" alt=""/>
-                                        </div>
-                                        <div className="ml-2 font-semibold">
-                                            Eggs
-                                        </div>
-                                    </div>
-                                    <div className="text-left">
-                                        0
-                                    </div>
-                                </div>
-
                             </div>
 
                         </div>
@@ -456,27 +406,28 @@ const External = () =>{
 
     return (
         <div className="relative">
+            <div className="absolute inset-0">
+                <img
+                    className=" w-full mx-auto"
+                    src="https://cdn.discordapp.com/attachments/876498266550853642/984772327361351680/external.png"
+                    alt="People working on laptops"
+                />
+            </div>
             <div className="absolute inset-x-0 bottom-0    " />
+
             <div className=" mx-auto  ">
                 <div className="fixed z-20 inset-x-0 flex justify-between items-center">
                     <Link href="/main">
-                        <div className="text-2xl text-gray-600 px-5">
-                            <i className="fa fa-reply" aria-hidden="true"></i>
-                        </div>
+                        <img className="w-8 ml-4 " src="https://cdn.discordapp.com/attachments/876498266550853642/984029778149523466/Login.png" alt=""/>
                     </Link>
-                    <div className="flex justify-center items-center border border-gray-500 overflow-hidden rounded-full">
-                        <Link href="/wallet">
-                            <a className="bg-white text-black px-6 py-2">
-                                Internal
-                            </a>
-                        </Link>
+                    <div className="flex justify-center font-semibold text-2xl items-center text-white">
                         <Link href="/wallet/external">
-                            <a className="bg-black text-white px-5 py-2">
+                            <a className="   ">
                                 External
                             </a>
                         </Link>
                     </div>
-                    <div className="  text-2xl text-gray-600 px-5">
+                    <div className="  text-2xl text-white px-5">
                         <i className="fa fa-cog " aria-hidden="true"></i>
                     </div>
                 </div>

@@ -9,6 +9,7 @@ function classNames(...classes) {
 
 const Send = () =>{
     const [openSend,setOpenSend] = useState(false)
+    //transfer address
     const [ToAddress,setToAddress] = useState("")
     const send =()=>{
         setToAddress((document.getElementById("amount") as HTMLInputElement).value)
@@ -48,7 +49,7 @@ const Send = () =>{
                         />
                     </div>
 
-                    <div className="flex justify-center mt-64">
+                    <div className="flex justify-center mt-48">
                         <button
                             onClick={send}
                             className="w-72 flex mt-5  justify-center rounded-full border border-gray-600 border-b-4 border-r-4  shadow-sm px-4 py-2 bg-blue-300 text-base font-medium text-white "

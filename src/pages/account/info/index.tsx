@@ -9,7 +9,8 @@ import {Dialog, Transition } from '@headlessui/react';
 
 const Avatar = ()=>{
     const [openAvatar,setOpenAvatar] =useAtom(OpenAvatar)
-    const[,setAvatar] = useAtom(PeopleAvatar)
+    //Choose Avatar
+    const [,setAvatar] = useAtom(PeopleAvatar)
     const avatar = [
         {img:"https://cdn.discordapp.com/attachments/897398778166906911/950273679881814016/unknown.png"},
         {img:"https://cdn.discordapp.com/attachments/897398778166906911/950273947147059230/unknown.png"},
@@ -57,6 +58,7 @@ const Avatar = ()=>{
                                 </div>
                                 <div className="mt-5 grid grid-cols-5 gap-4">
                                     {avatar.map((item=>(
+                                        //Choose Avatar
                                         <button onClick={()=>{setAvatar(item.img) ,setOpenAvatar(false)}} key={item.img}>
                                             <img className=" rounded-full" src={item.img} alt=""/>
                                         </button>
@@ -222,8 +224,8 @@ const Gender = ()=>{
 const Info = () =>{
 
     const [name,setName] = useAtom(PeopleName)
-    const[email,setEmail] = useAtom(PeopleEmail)
-    const[avatar,setAvatar] = useAtom(PeopleAvatar)
+    const [email,setEmail] = useAtom(PeopleEmail)
+    const [avatar,setAvatar] = useAtom(PeopleAvatar)
     const [gender,setGender] = useAtom(PeopleGender)
     const [,setOpenAvatar] =useAtom(OpenAvatar)
     const [,setOpenName] = useAtom(OpenName)
@@ -238,6 +240,7 @@ const Info = () =>{
                     </div>
                 </Link>
                 <div className="max-w-7xl relative px-8 py-16   mx-auto ">
+                        {/*avatar*/}
                         <div className="">
                         <div   className="flex justify-center">
                             <img onClick={()=>setOpenAvatar(true)} className="w-24 rounded-full" src={avatar} alt=""/>
@@ -246,7 +249,7 @@ const Info = () =>{
                         <i onClick={()=>setOpenAvatar(true)} className="fa fa-pencil-square-o " aria-hidden="true"></i>
                         </div>
                         </div>
-
+                    {/*email*/}
                     <div className=" flex  justify-between items-center mt-10">
                         <div className="flex items-center ">
                             <div className="text-left   ml-2">
@@ -264,7 +267,7 @@ const Info = () =>{
                             </Link>
                         </div>
                     </div>
-
+                    {/*name*/}
                     <div className=" flex  justify-between items-center mt-10">
                         <div className="flex items-center ">
                             <div className="text-left   ml-2">
@@ -281,7 +284,7 @@ const Info = () =>{
                             <i className="fa fa-chevron-right " aria-hidden="true"></i></button>
                         </div>
                     </div>
-
+                    {/*gender*/}
                     <div className=" flex  justify-between items-center mt-10">
                         <div className="flex items-center ">
                             <div className="text-left   ml-2">
@@ -299,7 +302,7 @@ const Info = () =>{
                             </button>
                         </div>
                     </div>
-
+                    {/*Password*/}
                     <div className=" flex  justify-between items-center mt-10">
                         <div className="flex items-center ">
                             <div className="text-left   ml-2">

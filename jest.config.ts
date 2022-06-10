@@ -9,7 +9,7 @@ const config: InitialOptionsTsJest = {
   testEnvironment: 'jsdom',
   globals: {
     'ts-jest': {
-      tsconfig: 'tsconfig.test.json',
+      tsconfig: 'tsconfig.content.json',
     },
   },
 }

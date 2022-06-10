@@ -278,6 +278,7 @@ const Season = () => {
 
 
 const Leaderboard = () =>{
+    //title type
     const [title] = useState({
         Week: [],
         Month: [],
@@ -291,7 +292,8 @@ const Leaderboard = () =>{
                 <div className="max-w-7xl relative px-8 pt-20 py-10   mx-auto ">
                     <div>
                         <Tab.Group>
-                            <Tab.List className=" p-1  bg-blue-900/20 rounded-xl mx-auto       ">
+                            <Tab.List className=" p-1  bg-blue-900/20 rounded-xl mx-auto">
+                                {/*list*/}
                                 <div className="rounded-full overflow-hidden border border-gray-500 flex items-center">
                                     {Object.keys(title).map((category) => (
                                         <Tab
@@ -305,6 +307,7 @@ const Leaderboard = () =>{
                                     ))}
                                 </div>
                             </Tab.List>
+                            {/*content*/}
                             <Tab.Panels className="mt-5 ">
                                 <Tab.Panel className={classNames(
                                     '')}>

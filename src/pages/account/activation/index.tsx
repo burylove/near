@@ -68,6 +68,7 @@ const Activation = () =>{
                             </div>
                         </div>
 
+                        {/*Code List*/}
                         <div className="border border-black px-10 py-5 bg-white h-lg rounded-2xl mt-10">
                             {code.map((item=>(
                                 <div key={item.id} className="flex justify-between">
@@ -81,12 +82,9 @@ const Activation = () =>{
                                         <button onClick={() => {Copy('address') }} className="text-gray-400 font-light flex transition duration-300">
                                             <i className="fa fa-clone mt-1 ml-2" aria-hidden="true"></i>
                                         </button>
-
                                     </div>
-
                                 </div>
                             )))}
-
                         </div>
 
                     </div>

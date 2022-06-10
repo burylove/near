@@ -4,8 +4,14 @@ import {useAtom} from "jotai";
 import {PublicKey, SecretKey, SeedPhrase} from "../../../jotai";
 
 const Activation = () =>{
+
+    //Create PublicKey
     const  [publicKey,setPublicKey] = useAtom(PublicKey)
+
+    //Create SecretKey
     const  [secretKey,setSecretKey] = useAtom(SecretKey)
+
+    //Create SeedPhrase
     const  [seedPhrase,setSeedPhrase] = useAtom(SeedPhrase)
 
     const send =async () =>{
@@ -28,16 +34,22 @@ const Activation = () =>{
     }
 
     return (
-        <div className="relative pt-16">
+        <div className="relative  pt-5">
             <div className="absolute inset-x-0 bottom-0    " />
-            <div className="absolute inset-0">
-                <img
-                    className="h-screen w-full mx-auto"
-                    src="https://cdn.discordapp.com/attachments/876498266550853642/969529054967529522/5.png"
-                    alt="People working on laptops"
-                />
-            </div>
+
+            {/*<div className="absolute inset-0">*/}
+            {/*    <img*/}
+            {/*        className="h-screen w-full mx-auto"*/}
+            {/*        src="https://cdn.discordapp.com/attachments/876498266550853642/984032771808854016/Login.png"*/}
+            {/*        alt="People working on laptops"*/}
+            {/*    />*/}
+            {/*</div>*/}
             <div className=" mx-auto  ">
+                <div className="fixed z-20 inset-x-0 flex justify-between">
+                    <button onClick={()=>{window.history.back()}}>
+                        <img className="w-8 ml-4" src="https://cdn.discordapp.com/attachments/876498266550853642/984031844666314812/activation.png" alt=""/>
+                    </button>
+                </div>
                 <div className="max-w-7xl relative px-12 py-16 h-screen   sm:px-6  mx-auto ">
                     <div className="mt-36 ">
                         <div className="flex justify-between">
@@ -50,7 +62,7 @@ const Activation = () =>{
                             </div>
                             <div>
                                 <button onClick={send} className="">
-                                    <img className="w-32" src="https://cdn.discordapp.com/attachments/876498266550853642/969524082938904606/ACTIVATION.png" alt=""/></button>
+                                    <img className="w-24" src="https://cdn.discordapp.com/attachments/876498266550853642/984031844909600828/activation.png" alt=""/></button>
                             </div>
                         </div>
                     </div>

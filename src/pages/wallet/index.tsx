@@ -41,20 +41,6 @@ const InternalInfo = () =>{
               </button>
                </div>
                         <div className="mt-14 border-2 border-gray-500 rounded-xl  border-r-4 border-b-4">
-                            <div className="flex justify-between px-4 py-2 items-center ">
-                                <div className="flex items-center">
-                                <div>
-                                    <img className="rounded-full w-9"
-                                         src="https://s2.coinmarketcap.com/static/img/coins/64x64/16352.png" alt=""/>
-                                </div>
-                                <div className="ml-2 font-semibold">
-                                    GST
-                                </div>
-                                </div>
-                                <div className="text-left">
-                                {GSTtoken}
-                                </div>
-                            </div>
                             <div className="flex justify-between px-4 py-2 border-t border-b border-gray-500 items-center ">
                                 <div className="flex items-center">
                                     <div>
@@ -62,7 +48,7 @@ const InternalInfo = () =>{
                                              src="https://s2.coinmarketcap.com/static/img/coins/200x200/18069.png" alt=""/>
                                     </div>
                                     <div className="ml-2 font-semibold">
-                                        GMT
+                                        勋章
                                     </div>
                                 </div>
                                 <div className="text-left">

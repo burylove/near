@@ -4,7 +4,19 @@ import { atomWithStorage } from 'jotai/utils'
 const GSTToken = atomWithStorage("GST",0)
 const GMTToken = atomWithStorage('GMT',0)
 const NEARToken = atomWithStorage('NEAR',0)
-
+const tokens = [
+    {
+        id: 1,
+        name: 'NEAR',
+        avatar: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1onspODOPj_-mr_lbWFWTt6SFO69mMdG6eT-tnkCiaBy97s2i-1KauNPVv4nN_L1bYkA&usqp=CAU",
+    },
+    {
+        id: 2,
+        name: 'ETH',
+        avatar: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1onspODOPj_-mr_lbWFWTt6SFO69mMdG6eT-tnkCiaBy97s2i-1KauNPVv4nN_L1bYkA&usqp=CAU",
+    },
+]
+const SwitchChain = atomWithStorage("SwitchChain",tokens[0])
 const ExternalNEARToken = atomWithStorage('ExternalNEAR',0)
 const ExternalGSTToken = atomWithStorage("ExternalGST",0)
 const ExternalGMTToken = atomWithStorage('ExternalGMT',0)
@@ -29,6 +41,8 @@ const LoadingState  = atom(false)
 const PetList = atom ([])
 const pet_info = atom([])
 
+const SeasonName = atomWithStorage("SeasonName","")
+
 export {GSTToken,GMTToken,NEARToken,PeopleAvatar,PeopleEmail,NearAccount,PeopleName,PublicKey,SecretKey,SeedPhrase,PeopleGender,OpenAvatar,OpenName,OpenGender
-,LoadingState,PetList,pet_info,ExternalNEARToken,ExternalUSNToken,ExternalGSTToken,ExternalGMTToken,HiddenReciprocal}
+,LoadingState,PetList,pet_info,ExternalNEARToken,ExternalUSNToken,ExternalGSTToken,ExternalGMTToken,HiddenReciprocal,SwitchChain,SeasonName}
 

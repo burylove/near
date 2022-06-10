@@ -10,6 +10,7 @@ import {
 } from "../jotai";
 
 const Constant = ()=>{
+    //TokenData
     const [GST,] = useAtom(GSTToken)
     const [GMT,] = useAtom(GMTToken)
     const [NEAR,] = useAtom(NEARToken)
@@ -17,7 +18,9 @@ const Constant = ()=>{
     const [externalGMTtoken,] = useAtom(ExternalGMTToken)
     const [externalNEARtoken,] = useAtom(ExternalNEARToken)
     const [externalUSNtoken,] = useAtom(ExternalUSNToken)
+    //InternalTokensData
     const TokenData= { GST, GMT, NEAR}
+    //ExternalTokensData
     const ExternalData = {
         GST:externalGSTtoken,
         GMT:externalGMTtoken,
@@ -31,7 +34,9 @@ const Constant = ()=>{
     }
     return {TokenData,TokenImg,ExternalData}
 }
-const PetStyle=
+
+   //PetBackground
+   const PetStyle=
     {
         Common:"bg-gray-500 text-white",
         Uncommon:"bg-green-600 text-white",
@@ -39,6 +44,7 @@ const PetStyle=
         Epic:"bg-indigo-400 text-white",
         Legendary:"bg-yellow-400 text-black" ,
     }
+//PetTextStyle
     const PetTextStyle=
         {
             Common:"text-black",

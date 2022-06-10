@@ -3,7 +3,6 @@ import {useAtom} from "jotai";
 import {GMTToken, GSTToken, NEARToken, PeopleAvatar} from "../../jotai";
 import Link from "next/link";
 import Wallet from "../wallet";
-import Loading from "../loading";
 const Header = () =>{
 
     const [Avatar,]=useAtom(PeopleAvatar)
